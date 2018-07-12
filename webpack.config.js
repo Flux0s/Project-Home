@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 const outputDirectory = "build";
 
@@ -25,7 +26,8 @@ module.exports = {
       },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        loader: "url-loader?limit=100000"
+        loader: "url-loader",
+        options: { limit: 100000 }
       }
     ]
   },
@@ -39,8 +41,11 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
-      favicon: "./public/favicon.ico"
+      template: "./public/index.html"
+    }),
+    new FaviconsWebpackPlugin({
+      logo: "./public/img/Logo1.png",
+      persistentCache: false
     })
   ]
 };
