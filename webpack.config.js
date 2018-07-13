@@ -1,8 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const outputDirectory = "build";
 
 module.exports = {
@@ -21,8 +20,20 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        test: /\.scss$/,
+        use: [
+          // fallback to style-loader in development
+          process.env.NODE_ENV !== "production"
+            ? { loader: "style-loader" }
+            : MiniCssExtractPlugin.loader,
+          { loader: "css-loader" },
+          {
+            loader: "sass-loader",
+            options: {
+              includePaths: ["src/client/sass/"]
+            }
+          }
+        ]
       },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
@@ -43,9 +54,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     }),
-    new FaviconsWebpackPlugin({
-      logo: "./public/img/Logo1.png",
-      persistentCache: false
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     })
   ]
 };
