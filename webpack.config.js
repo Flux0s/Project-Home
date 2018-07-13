@@ -20,7 +20,7 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
+        test: /\.(s*)css$/,
         use: [
           // fallback to style-loader in development
           process.env.NODE_ENV !== "production"
