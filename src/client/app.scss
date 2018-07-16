@@ -1,6 +1,8 @@
 @import "@material/button/mdc-button";
 
-.foo-button {
-  @include mdc-button-ink-color(teal);
-  @include mdc-states(teal);
+.main {
+  text-align: center;
+}
+.my-button {
+  margin: 8px;
 }

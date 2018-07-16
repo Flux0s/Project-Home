@@ -5,7 +5,11 @@ const outputDirectory = "build";
 const autoprefixer = require("autoprefixer");
 
 module.exports = {
-  entry: ["./src/client/index.js", "./src/client/app.scss"],
+  entry: [
+    "./src/client/index.js",
+    "./src/client/app.scss",
+    "./src/client/MDC.js"
+  ],
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: "bundle.js"
