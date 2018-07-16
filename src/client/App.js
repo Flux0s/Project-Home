@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { MDCRipple } from "@material/ripple";
 import "./app.scss";
 
 class App extends Component {
@@ -29,13 +30,12 @@ class Navbar extends Component {
     return <nav />;
   }
 }
+const ripple = new MDCRipple(document.querySelector(".foo-button"));
 
-const Body = () => {
-  return (
-    <div>
-      <button class="foo-button mdc-button">Button</button>
-    </div>
-  );
-};
+class Body extends Component {
+  render() {
+    return ripple;
+  }
+}
 
 export default App;

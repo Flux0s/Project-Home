@@ -5,7 +5,7 @@ const outputDirectory = "build";
 const autoprefixer = require("autoprefixer");
 
 module.exports = {
-  entry: "./src/client/index.js",
+  entry: ["./src/client/index.js", "./src/client/app.scss"],
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: "bundle.js"
@@ -16,7 +16,10 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
+          loader: "babel-loader",
+          query: {
+            presets: ["es2015"]
+          }
         }
       },
       {
