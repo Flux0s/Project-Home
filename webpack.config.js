@@ -1,8 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const outputDirectory = "build";
+const autoprefixer = require("autoprefixer");
 
 module.exports = {
   entry: "./src/client/index.js",
@@ -22,16 +22,19 @@ module.exports = {
       {
         test: /\.(s*)css$/,
         use: [
-          // fallback to style-loader in development
-          process.env.NODE_ENV !== "production"
-            ? { loader: "style-loader" }
-            : MiniCssExtractPlugin.loader,
+          {
+            loader: "file-loader",
+            options: { name: "bundle.css" }
+          },
+          { loader: "extract-loader" },
           { loader: "css-loader" },
           {
+            loader: "postcss-loader",
+            options: { plugins: () => [autoprefixer()] }
+          },
+          {
             loader: "sass-loader",
-            options: {
-              includePaths: ["src/client/sass/"]
-            }
+            options: { includePaths: ["./node_modules"] }
           }
         ]
       },
@@ -44,7 +47,7 @@ module.exports = {
   },
   devServer: {
     port: 3000,
-    open: true,
+    open: false,
     proxy: {
       "/api": "http://localhost:8080"
     }
@@ -53,12 +56,6 @@ module.exports = {
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
       template: "./public/index.html"
-    }),
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // both options are optional
-      filename: "[name].css",
-      chunkFilename: "[id].css"
     })
   ]
 };

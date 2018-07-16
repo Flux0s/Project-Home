@@ -4,11 +4,14 @@
   "description": "Server code for project-home",
   "main": "app.js",
   "dependencies": {
+    "@material/button": "^0.37.0",
+    "autoprefixer": "^8.6.5",
     "express": "^4.16.3",
     "jquery": "^3.3.1",
-    "socket.io": "^2.1.1",
+    "postcss-loader": "^2.1.6",
     "react": "^16.3.1",
-    "react-dom": "^16.3.1"
+    "react-dom": "^16.3.1",
+    "socket.io": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -19,12 +22,13 @@
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.5.1",
     "css-loader": "^0.28.11",
+    "extract-loader": "^2.0.1",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.4.1",
     "node-sass": "^4.9.2",
     "nodemon": "^1.17.3",
     "sass-loader": "^7.0.3",
+    "sass-variable-loader": "^0.1.2",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
     "webpack": "^4.5.0",
