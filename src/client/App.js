@@ -1,22 +1,19 @@
 import React, { Component } from "react";
+import LoginPage from "./login.js";
 import "./app.scss";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      pageContent: null,
-      pageTitle: "Home"
-    };
+    this.state = {};
   }
   render() {
     return (
       <div>
-        <header>
-          <Navbar pageTitle={this.state.pageTitle} />
-        </header>
-        <section className="main">
-          <Body />
+        <Navbar pageTitle={this.state.pageTitle} />
+
+        <section>
+          <div />
         </section>
         <footer />
       </div>
@@ -26,17 +23,12 @@ class App extends Component {
 
 class Navbar extends Component {
   render() {
-    return <nav />;
-  }
-}
-class Body extends Component {
-  render() {
     return (
-      <div>
-        <button className="my-button mdc-button mdc-button--raised">
-          Button
-        </button>
-      </div>
+      <header className="mdc-top-app-bar">
+        <div className="mdc-top-app-bar__row">
+          <section className="mdc-top-mdc-top-app-bar__section" />
+        </div>
+      </header>
     );
   }
 }
