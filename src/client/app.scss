@@ -1,5 +1,28 @@
-@import "@material/toolbar/mdc-toobar";
+@import "@material/toolbar/mdc-toolbar";
 
 body {
   margin: 0;
+}
+
+.toolbar {
+  height: 72px;
+}
+
+.title-link {
+  text-decoration: none;
+  display: flex;
+}
+
+.toolbar-title {
+  font-size: 1.143rem;
+  text-transform: uppercase;
+}
+
+.logo {
+  height: 32px;
+  width: 32px;
+  background-image: "./../../public/img/Logo1.png";
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
 }

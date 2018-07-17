@@ -5,7 +5,9 @@ import "./app.scss";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      pageTitle: "Json-Home"
+    };
   }
   render() {
     return (
@@ -24,11 +26,14 @@ class App extends Component {
 class Navbar extends Component {
   render() {
     return (
-      <header className="mdc-toolbar">
+      <header className="toolbar mdc-toolbar">
         <div className="mdc-toolbar__row">
           <section className="mdc-toolbar__section mdc-toolbar__section--align-start">
-            <span className="navbar-title-link">
-              <h1 className="mdc-top-app-bar__title">Title</h1>
+            <span href="/" className="title-link">
+              <div className="logo" />
+              <h1 className="toolbar-title mdc-toolbar__title">
+                {this.props.pageTitle}
+              </h1>
             </span>
           </section>
         </div>
