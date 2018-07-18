@@ -1,28 +1,47 @@
 @import "@material/toolbar/mdc-toolbar";
+@import "@material/typography/mdc-typography";
 
 body {
   margin: 0;
 }
 
-.toolbar {
+.navbar {
   height: 72px;
-}
 
-.title-link {
-  text-decoration: none;
-  display: flex;
-}
+  &-row {
+    height: 100%;
+  }
 
-.toolbar-title {
-  font-size: 1.143rem;
-  text-transform: uppercase;
-}
+  &-section {
+    height: 100%;
+    padding: 0 24px;
+    align-items: center;
+  }
 
-.logo {
-  height: 32px;
-  width: 32px;
-  background-image: "./../../public/img/Logo1.png";
-  background-size: contain;
-  background-position: 50%;
-  background-repeat: no-repeat;
+  &-title {
+    font-size: 1.3rem;
+    padding: 0;
+    margin: 0;
+    margin-left: 14px;
+    text-decoration: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+    color: #fff;
+
+    &-link {
+      padding: 0;
+      text-decoration: none;
+      margin: 0;
+      display: flex;
+    }
+  }
+
+  &-logo {
+    margin: 0;
+    padding: 4px;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    background-color: #fff;
+  }
 }
