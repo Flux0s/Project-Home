@@ -15,7 +15,7 @@ class LoginPage extends Component {
           <img src={Logo} className="login-logo" />
           <h1 className="login-title"> Json Home </h1>
 
-          <form>
+          <form action="/api" method="POST">
             <div className="mdc-text-field mdc-text-field--box login-username">
               <input
                 type="text"
