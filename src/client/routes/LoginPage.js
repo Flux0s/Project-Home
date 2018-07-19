@@ -44,7 +44,7 @@ class LoginPage extends Component {
             </div>
             <div className="login-button_container">
               <button className="mdc-button mdc-button--raised login-next">
-                Next
+                Login
               </button>
             </div>
           </form>
