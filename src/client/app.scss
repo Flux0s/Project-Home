@@ -1,6 +1,9 @@
 @import "@material/toolbar/mdc-toolbar";
 @import "@material/typography/mdc-typography";
 @import "@material/textfield/mdc-text-field";
+@import "@material/card/mdc-card";
+@import "@material/line-ripple/mdc-line-ripple";
+@import "@material/button/mdc-button";
 @import "./MDC-Baseline";
 
 body {
@@ -55,7 +58,14 @@ body {
   width: 100%;
   position: absolute;
   background: linear-gradient(#fff, #000);
-  vertical-align: 50%;
+
+  &-section {
+    position: relative;
+    top: 50%;
+    transform: perspective(1px) translateY(-50%);
+    display: inline-block;
+    padding: 2.5em;
+  }
 
   &-title {
     line-height: 1em;
@@ -64,7 +74,29 @@ body {
   &-logo {
     width: 150px;
     height: 150px;
-    padding-top: 80px;
     fill: currentColor;
+  }
+
+  &-username,
+  &-password {
+    text-align: left;
+    display: block;
+    width: 300px;
+    margin: 20px auto;
+  }
+
+  &-button_container {
+    display: flex;
+    justify-content: flex-end;
+    width: 300px;
+    margin: auto;
+  }
+
+  &-button_container button {
+    margin: 3px;
+  }
+
+  &-next {
+    
   }
 }

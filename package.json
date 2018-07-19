@@ -4,7 +4,7 @@
   "description": "Server code for project-home",
   "main": "app.js",
   "dependencies": {
-    "@material/button": "^0.37.0",
+    "@material/button": "^0.37.1",
     "@material/card": "^0.37.1",
     "@material/ripple": "^0.37.0",
     "@material/textfield": "^0.37.1",
