@@ -54,7 +54,10 @@ module.exports = {
     open: false,
     historyApiFallback: true,
     proxy: {
-      "/api": "http://localhost:8080"
+      "/api": {
+        target: "http://localhost:5000",
+        pathRewrite: { "^/api": "" }
+      }
     }
   },
   plugins: [

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import LoginPage from "./routes/LoginPage";
+import ConfigPage from "./routes/ConfigPage"
 import Auth from "./Authorization";
 
 import "./app.scss";
@@ -14,7 +15,7 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact strict path="/login" component={LoginPage} />
-          <PrivateRoute path="/secret" component={LoginPage} />
+          <PrivateRoute path="/config" component={ConfigPage} />
           <Redirect to="/login" />
         </Switch>
       </BrowserRouter>
