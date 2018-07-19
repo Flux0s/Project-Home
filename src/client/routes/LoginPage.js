@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Navbar from "./../Navbar.js";
+import Logo from "./../img/Logo-Large.png";
 
 class LoginPage extends Component {
-  static docTitle = "";
+  static docTitle = "Login";
   constructor(props) {
     super(props);
     this.state = {};
@@ -10,9 +10,12 @@ class LoginPage extends Component {
   }
   render() {
     return (
-      <div>
-        <div />
-      </div>
+      <section className="login">
+        <div>
+          <img src={Logo} className="login-logo" />
+          <h1 className="login-title"> Json Home </h1>
+        </div>
+      </section>
     );
   }
 }

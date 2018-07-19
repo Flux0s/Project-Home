@@ -1,7 +1,10 @@
 @import "@material/toolbar/mdc-toolbar";
 @import "@material/typography/mdc-typography";
+@import "@material/textfield/mdc-text-field";
+@import "./MDC-Baseline";
 
 body {
+  @extend .mdc-typography;
   margin: 0;
 }
 
@@ -43,5 +46,25 @@ body {
     width: 32px;
     border-radius: 50%;
     background-color: #fff;
+  }
+}
+
+.login {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: linear-gradient(#fff, #000);
+  vertical-align: 50%;
+
+  &-title {
+    line-height: 1em;
+  }
+
+  &-logo {
+    width: 150px;
+    height: 150px;
+    padding-top: 80px;
+    fill: currentColor;
   }
 }
