@@ -6,7 +6,6 @@ const Dotenv = require("dotenv-webpack");
 const outputDirectory = "build";
 
 module.exports = {
-  target: 'node',
   entry: [
     "./src/client/index.js",
     "./src/client/app.scss",
