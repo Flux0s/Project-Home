@@ -1,10 +1,12 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const outputDirectory = "build";
 const autoprefixer = require("autoprefixer");
+const Dotenv = require("dotenv-webpack");
+const outputDirectory = "build";
 
 module.exports = {
+  target: 'node',
   entry: [
     "./src/client/index.js",
     "./src/client/app.scss",
@@ -64,6 +66,10 @@ module.exports = {
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
       template: "./public/index.html"
+    }),
+    new Dotenv({
+      safe: true, // load '.env.example' to verify the '.env' variables are all set. Can also be a string to a different file.
+      systemvars: false, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
     })
   ]
 };

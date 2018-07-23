@@ -58,10 +58,10 @@ app.post(
   })
 );
 
-app.get(
-  "/getTheme",
-  passport.authorize()
-)
+app.get("/getTheme", function (req, res) {
+  if (!req.isAuthenticated())
+    return (res.redirect("/"))   
+});
 
 // launch ======================================================================
 app.listen(port, "localhost");
