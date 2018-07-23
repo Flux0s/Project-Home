@@ -2,6 +2,7 @@
 
 // set up ======================================================================
 // get all the tools we need
+require("dotenv").config();
 var express = require("express");
 var app = express();
 var port = process.env.PORT || 5000;
@@ -32,7 +33,14 @@ app.use(bodyParser()); // get information from html forms
 // app.set("view engine", "ejs"); // set up ejs for templating
 
 // required for passport
-app.use(session({ secret: "ilovescotchscotchyscotchscotch" })); // session secret
+var hour = 1800000;
+
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    cookie: { maxAge: hour }
+  })
+); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -49,6 +57,11 @@ app.post(
     failureFlash: true // allow flash messages
   })
 );
+
+app.get(
+  "/getTheme",
+  passport.authorize()
+)
 
 // launch ======================================================================
 app.listen(port, "localhost");

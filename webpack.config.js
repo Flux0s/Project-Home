@@ -8,7 +8,7 @@ module.exports = {
   entry: [
     "./src/client/index.js",
     "./src/client/app.scss",
-    "./src/client/MDC.js"
+    "./src/client/routes/Components/MDC.js"
   ],
   output: {
     path: path.join(__dirname, outputDirectory),

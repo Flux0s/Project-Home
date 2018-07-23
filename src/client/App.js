@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import LoginPage from "./routes/LoginPage";
 import ConfigPage from "./routes/ConfigPage";
-import Auth from "./routes/Coomponents/Authorization";
 
 import "./app.scss";
 
