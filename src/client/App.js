@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import LoginPage from "./routes/LoginPage";
 import ConfigPage from "./routes/ConfigPage";
-import socket from "./routes/Components/socket";
+import Socket from "./routes/Components/socket";
 
 import "./app.scss";
 
@@ -24,12 +24,13 @@ class App extends Component {
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
+  const socket = new Socket();
   return (
     <Route
       {...rest}
       render={(props) =>
         socket.isAuthenticated ? (
-          <Component {...props} />
+          <Component socket={socket} {...props} />
         ) : (
           <Redirect
             to={{
