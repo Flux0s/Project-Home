@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import LoginPage from "./routes/LoginPage";
 import ConfigPage from "./routes/ConfigPage";
+import socket from "./routes/Components/socket";
 
 import "./app.scss";
 
@@ -27,7 +28,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        Auth.isAuthenticated ? (
+        socket.isAuthenticated ? (
           <Component {...props} />
         ) : (
           <Redirect
