@@ -9,8 +9,9 @@ class Socket {
 
   initializeConnection() {
     this.socket = io.connect(Socket.endpoint);
-
-    this.running = socket.on();
+    socket.emit("Hello?", function(res) {
+      this.running = res === "World!";
+    });
   }
 
   isRunning = () => {

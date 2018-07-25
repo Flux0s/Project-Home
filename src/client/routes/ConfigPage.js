@@ -6,7 +6,7 @@ class ConfigPage extends Component {
     this.state = {};
   }
   render() {
-    return <div> Authenticated Configuration! </div>;
+    return <div> Socket connected! </div>;
   }
 }
 

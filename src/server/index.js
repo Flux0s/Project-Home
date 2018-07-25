@@ -7,7 +7,6 @@ var passport = require("passport");
 var expressSession = require("express-session");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
-var flash = require("connect-flash");
 var MongoStore = require("connect-mongo")(expressSession);
 
 ///////////////////////////////////////////////////////////////
@@ -26,7 +25,7 @@ var mongo_store = new MongoStore({
 
 var sessionMiddleware = expressSession({
   secret: process.env.COOKIE_SECRET,
-  cookie: { maxAge: process.env.COOKIE_EXPIRATION, secure: false },
+  cookie: { maxAge: 1800000, secure: false },
   store: mongo_store,
   saveUninitialized: false,
   resave: true
@@ -38,7 +37,6 @@ require("./config/passport")(passport); // pass passport for configuration
 var app = require("express")()
   .use(bodyParser())
   .use(morgan("dev"))
-  .use(flash()) // use connect-flash for flash messages stored in session
   .use(sessionMiddleware)
   .use(passport.initialize())
   .use(passport.session())
@@ -46,9 +44,11 @@ var app = require("express")()
     "/",
     passport.authenticate("local-login", {
       // successRedirect: "/config", // redirect to the secure config section
-      failureRedirect: "/", // redirect back to the login page if there is an error
-      failureFlash: true // allow flash messages
-    })
+      // failureRedirect: "/" // redirect back to the login page if there is an error
+    }),
+    function(req, res) {
+      res.redirect("/config");
+    }
   )
 
   .listen({ host: "localhost", port: port });
@@ -63,4 +63,7 @@ var io = require("socket.io")(app)
   .on("connection", function(socket) {
     var userId = socket.request.session.passport.user;
     console.log("Your User ID is", userId);
+    socket.on("Hello?", function(fn) {
+      fn("World!");
+    });
   });
