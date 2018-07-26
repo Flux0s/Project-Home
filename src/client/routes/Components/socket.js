@@ -1,22 +1,22 @@
 import io from "socket.io-client";
 class Socket {
-  static endpoint = "localhost:3000/api";
-  constructor() {
+  static endpoint = "localhost:5000";
+  constructor(reconnect) {
     this.running = false;
     this.socket = null;
-    this.initializeConnection();
+    this.initializeConnection(reconnect);
   }
 
-  initializeConnection() {
-    this.socket = io.connect(Socket.endpoint);
-    socket.emit("Hello?", function(res) {
-      this.running = res === "World!";
-    });
+  initializeConnection(reconnect) {
+    this.socket = io.connect(
+      Socket.endpoint,
+      {
+        reconnection: reconnect,
+        reconnectionDelayMax: 30000,
+        reconnectionAttempts: 5
+      }
+    );
   }
-
-  isRunning = () => {
-    return this.running;
-  };
 }
 
 export default Socket;

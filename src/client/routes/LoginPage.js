@@ -3,6 +3,7 @@ import Logo from "./../img/Logo-Large.png";
 
 class LoginPage extends Component {
   static docTitle = "Login";
+  static apiEndpoint = "/api";
   constructor(props) {
     super(props);
     this.state = {};
@@ -15,7 +16,7 @@ class LoginPage extends Component {
           <img src={Logo} className="login-logo" />
           <h1 className="login-title"> Json Home </h1>
 
-          <form action="/api" method="POST">
+          <form action={LoginPage.apiEndpoint} method="POST">
             <div className="mdc-text-field mdc-text-field--box login-username">
               <input
                 type="text"

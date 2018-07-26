@@ -9,13 +9,35 @@ import "./app.scss";
 class App extends Component {
   constructor(props) {
     super(props);
+    this.socket = new Socket(false);
   }
   render() {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact strict path="/login" component={LoginPage} />
-          <PrivateRoute path="/config" component={ConfigPage} />
+          <Route
+            path="/config"
+            render={(props) =>
+              this.socket.isConnected() ? (
+                <ConfigPage socket={new Socket(true)} {...props} />
+              ) : (
+                <Redirect to="/login" />
+              )
+            }
+          />
+
+          <Route
+            path="/login"
+            render={
+              (props) => (
+                // this.socket.isConnected() ? (
+                // <Redirect to="/config" />
+                // ) : (
+                <LoginPage {...props} />
+              )
+              // )
+            }
+          />
           <Redirect to="/login" />
         </Switch>
       </BrowserRouter>
@@ -23,13 +45,12 @@ class App extends Component {
   }
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const socket = new Socket();
+const ConfigRoute = ({ component: Component, Socket: socket, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) =>
-        socket.isAuthenticated ? (
+        socket.connected ? (
           <Component socket={socket} {...props} />
         ) : (
           <Redirect
