@@ -9,34 +9,21 @@ import "./app.scss";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.socket = new Socket(false);
+    this.state = {
+      loggedIn: false
+    };
+    console.log("Constructing!");
+    CheckAuthStatus;
   }
   render() {
     return (
       <BrowserRouter>
         <Switch>
           <Route
-            path="/config"
-            render={(props) =>
-              this.socket.isConnected() ? (
-                <ConfigPage socket={new Socket(true)} {...props} />
-              ) : (
-                <Redirect to="/login" />
-              )
-            }
-          />
-
-          <Route
             path="/login"
-            render={
-              (props) => (
-                // this.socket.isConnected() ? (
-                // <Redirect to="/config" />
-                // ) : (
-                <LoginPage {...props} />
-              )
-              // )
-            }
+            render={(props) => {
+              return <LoginPage props={props} />;
+            }}
           />
           <Redirect to="/login" />
         </Switch>
@@ -45,24 +32,8 @@ class App extends Component {
   }
 }
 
-const ConfigRoute = ({ component: Component, Socket: socket, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        socket.connected ? (
-          <Component socket={socket} {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
-  );
-};
+const CheckAuthStatus = new Promise(function(resolve, reject) {
+  var socket = new Socket(true);
+});
 
 export default App;

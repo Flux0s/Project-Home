@@ -8,12 +8,16 @@ class Socket {
   }
 
   initializeConnection(reconnect) {
-    this.socket = io.connect(
+    console.log("initializeConnection");
+    this.socket = io(
       Socket.endpoint,
       {
         reconnection: reconnect,
         reconnectionDelayMax: 30000,
         reconnectionAttempts: 5
+      },
+      function() {
+        console.log("Callback pls..");
       }
     );
   }
