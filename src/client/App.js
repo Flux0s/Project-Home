@@ -34,6 +34,9 @@ class App extends Component {
 
 const CheckAuthStatus = new Promise(function(resolve, reject) {
   var socket = new Socket(true);
+  socket.on("Authentication_Successful", function() {
+    resolve();
+  });
 });
 
 export default App;
