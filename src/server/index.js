@@ -57,27 +57,33 @@ console.log("Listening on " + port);
 var io = require("socket.io")(app)
   .use(sharedsession(sessionMiddleware, { autoSave: true }))
   .use(function(socket, next) {
-    if (false) {
+    if (!socket.handshake.session.passport) {
       console.log(
-        "Authenticated " +
-          socket.handshake.session.passport.user +
-          " successfully!"
+        "#### Warning: Intercepted unauthenticated socket request! Disconnecting..."
       );
-      next();
-    }
-    console.log(
-      "Warning! Unauthenticated socket request from ",
-      User.findById(socket.handshake.session.passport.user) || "Unknown User",
-      "! Killing the connection..."
-    );
-    socket.disconnect();
-    return;
+      socket.disconnect();
+    } else
+      User.findById(socket.handshake.session.passport.user, (err, user) => {
+        if (user) {
+          console.log(
+            "Authenticated socket connection from known user: " +
+              socket.handshake.session.passport.user
+          );
+          next();
+        } else {
+          console.log(
+            "#### Warning: Intercepted socket request with unknown user! Disconnecting..."
+          );
+          socket.emit("401");
+          socket.disconnect();
+        }
+      });
   })
   .on("connection", function(socket) {
     var userId = socket.handshake.session.passport.user;
     console.log(
       "Socket connection with ",
       userId,
-      " established successfully: "
+      " established successfully!"
     );
   });
