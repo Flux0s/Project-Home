@@ -5,3 +5,4 @@ const username = new MDCTextField(document.querySelector(".login-username"));
 const password = new MDCTextField(document.querySelector(".login-password"));
 
 new MDCRipple(document.querySelector(".login-next"));
+new MDCRipple(document.querySelector(".config-logout"));

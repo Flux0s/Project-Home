@@ -45,7 +45,7 @@ var app = require("express")()
   .post(
     "/",
     passport.authenticate("local-login", {
-      successRedirect: true,
+      successRedirect: "/config",
       failureRedirect: "/login" // redirect back to the login page if there is an error
     })
   )
@@ -74,16 +74,14 @@ var io = require("socket.io")(app)
           console.log(
             "#### Warning: Intercepted socket request with unknown user! Disconnecting..."
           );
-          socket.emit("401");
           socket.disconnect();
         }
       });
   })
   .on("connection", function(socket) {
     var userId = socket.handshake.session.passport.user;
-    console.log(
-      "Socket connection with ",
-      userId,
-      " established successfully!"
-    );
+    socket.emit("Authentication_Successful");
+    socket.on("Log_Out", () => {
+      console.log("User requested logout.");
+    });
   });

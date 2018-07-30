@@ -1,15 +1,43 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import Logo from "./../img/Logo-Large.png";
+import Socket from "./Components/socket";
+
+const Auth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    var socket = new Socket(false).getSocket();
+    socket.on("Authentication_Successful", cb); // fake async
+    this.isAuthenticated = true;
+  },
+  signout(cb) {
+    cb();
+    this.isAuthenticated = false;
+  }
+};
 
 class LoginPage extends Component {
   static docTitle = "Login";
   static apiEndpoint = "/api";
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      redirectToReferrer: false
+    };
     document.title = LoginPage.docTitle;
   }
+  login = () => {
+    Auth.authenticate(() => {
+      this.setState({ redirectToReferrer: true });
+    });
+  };
   render() {
+    const { from } = this.props.location.state || { from: { pathname: "/" } };
+    const { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer) {
+      return <Redirect to={from} />;
+    }
     return (
       <div className="login">
         <section className="login-section mdc-card">
@@ -44,7 +72,10 @@ class LoginPage extends Component {
               <div className="mdc-line-ripple" />
             </div>
             <div className="login-button_container">
-              <button className="mdc-button mdc-button--raised login-next">
+              <button
+                onClick={this.login()}
+                className="mdc-button mdc-button--raised login-next"
+              >
                 Login
               </button>
             </div>
@@ -55,4 +86,5 @@ class LoginPage extends Component {
   }
 }
 
+export { Auth };
 export default LoginPage;
