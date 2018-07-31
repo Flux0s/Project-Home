@@ -83,5 +83,7 @@ var io = require("socket.io")(app)
     socket.emit("Authentication_Successful");
     socket.on("Log_Out", () => {
       console.log("User requested logout.");
+      socket.handshake.session.destroy();
+      socket.disconnect();
     });
   });

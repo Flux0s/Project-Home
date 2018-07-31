@@ -36,6 +36,7 @@ class LoginPage extends Component {
     const { redirectToReferrer } = this.state;
 
     if (redirectToReferrer) {
+      console.log("Redirecting to: ", from);
       return <Redirect to={from} />;
     }
     return (

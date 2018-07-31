@@ -23,7 +23,7 @@ class App extends Component {
           <PrivateRoute
             path="/config"
             component={ConfigPage}
-            logout={this.logout()}
+            logout={this.logout}
           />
           <Redirect to="/config" />
         </Switch>
@@ -36,21 +36,25 @@ class App extends Component {
   };
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, path: Path, ...rest }) => (
   <Route
     {...rest}
-    render={(props) =>
-      Auth.isAuthenticated ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/login",
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
+    render={(props) => {
+      if (Auth.isAuthenticated) {
+        window.console.log("Authenticated! displaying: ", Path.pathname);
+        return <Component {...props} />;
+      } else {
+        window.console.log("Unauthenticated! redirecting to: /login");
+        return (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: props.location }
+            }}
+          />
+        );
+      }
+    }}
   />
 );
 

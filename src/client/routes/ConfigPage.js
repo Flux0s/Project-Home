@@ -17,7 +17,7 @@ class ConfigPage extends Component {
       <button
         onClick={() => {
           socket.emit("Log_Out");
-          this.props.logout();
+          this.props.logout;
         }}
         className="config-logout mdc-button mdc-button--raised"
       >
