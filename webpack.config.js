@@ -6,11 +6,7 @@ const Dotenv = require("dotenv-webpack");
 const outputDirectory = "build";
 
 module.exports = {
-  entry: [
-    "./src/client/index.js",
-    "./src/client/app.scss",
-    "./src/client/routes/Components/MDC.js"
-  ],
+  entry: ["./src/client/index.js", "./src/client/app.scss"],
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: "bundle.js"
@@ -68,7 +64,7 @@ module.exports = {
     }),
     new Dotenv({
       safe: true, // load '.env.example' to verify the '.env' variables are all set. Can also be a string to a different file.
-      systemvars: false, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
+      systemvars: false // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
     })
   ]
 };

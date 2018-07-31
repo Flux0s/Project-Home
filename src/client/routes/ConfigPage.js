@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { MDCRipple } from "@material/ripple";
 import Socket from "./Components/socket";
 
 class ConfigPage extends Component {
@@ -11,13 +12,17 @@ class ConfigPage extends Component {
     };
     document.title = ConfigPage.docTitle;
   }
+
+  componentDidMount() {
+    new MDCRipple(document.querySelector(".config-logout"));
+  }
+
   render() {
     var socket = this.state.socket;
     return (
       <button
         onClick={() => {
-          socket.emit("Log_Out");
-          this.props.logout;
+          socket.emit("Log_Out", () => this.props.logout);
         }}
         className="config-logout mdc-button mdc-button--raised"
       >

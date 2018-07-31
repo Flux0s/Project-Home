@@ -6,8 +6,9 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
-import LoginPage, { Auth } from "./routes/LoginPage";
+import LoginPage from "./routes/LoginPage";
 import ConfigPage from "./routes/ConfigPage";
+import Socket from "./routes/Components/socket";
 import "./app.scss";
 
 class App extends Component {
@@ -19,7 +20,11 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/login" component={LoginPage} />
+          <Route
+            path="/login"
+            authenticate={Auth.authenticate}
+            component={LoginPage}
+          />
           <PrivateRoute
             path="/config"
             component={ConfigPage}
@@ -57,6 +62,21 @@ const PrivateRoute = ({ component: Component, path: Path, ...rest }) => (
     }}
   />
 );
+
+const Auth = {
+  isAuthenticated: function() {
+    return new Socket(false).getSocket.connected;
+  },
+  authenticate(cb) {
+    var socket = new Socket(false).getSocket();
+    socket.on("Authentication_Successful", cb);
+    this.isAuthenticated = true;
+  },
+  signout(cb) {
+    cb();
+    this.isAuthenticated = false;
+  }
+};
 
 // const AuthButton = withRouter(
 //   ({ history }) =>

@@ -45,7 +45,7 @@ var app = require("express")()
   .post(
     "/",
     passport.authenticate("local-login", {
-      successRedirect: "/config",
+      // successRedirect: "/config",
       failureRedirect: "/login" // redirect back to the login page if there is an error
     })
   )
@@ -82,7 +82,8 @@ var io = require("socket.io")(app)
     var userId = socket.handshake.session.passport.user;
     socket.emit("Authentication_Successful");
     socket.on("Log_Out", () => {
-      console.log("User requested logout.");
+      console.log(socket.handshake.session.id, " requested logout.");
+
       socket.handshake.session.destroy();
       socket.disconnect();
     });
