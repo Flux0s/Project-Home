@@ -45,7 +45,7 @@ var app = require("express")()
   .post(
     "/",
     passport.authenticate("local-login", {
-      // successRedirect: "/config",
+      successRedirect: "/config",
       failureRedirect: "/login" // redirect back to the login page if there is an error
     })
   )

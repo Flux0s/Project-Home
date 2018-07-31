@@ -8,27 +8,27 @@ import {
 } from "react-router-dom";
 import LoginPage from "./routes/LoginPage";
 import ConfigPage from "./routes/ConfigPage";
-import Socket from "./routes/Components/socket";
+import AuthenticationManager from "./Components/Authentication";
 import "./app.scss";
 
+const Auth = new AuthenticationManager();
+
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   render() {
     return (
       <BrowserRouter>
         <Switch>
           <Route
             path="/login"
-            authenticate={Auth.authenticate}
-            component={LoginPage}
+            render={(props) => (
+              <LoginPage {...props} authenticate={Auth.authenticate} />
+            )}
           />
           <PrivateRoute
             path="/config"
             component={ConfigPage}
             logout={this.logout}
+            socket={Auth.getSocket()}
           />
           <Redirect to="/config" />
         </Switch>
@@ -46,10 +46,12 @@ const PrivateRoute = ({ component: Component, path: Path, ...rest }) => (
     {...rest}
     render={(props) => {
       if (Auth.isAuthenticated) {
-        window.console.log("Authenticated! displaying: ", Path.pathname);
+        window.console.log(
+          "Authenticated! displaying requested private component..."
+        );
         return <Component {...props} />;
       } else {
-        window.console.log("Unauthenticated! redirecting to: /login");
+        window.console.log("Unauthenticated! redirecting to: /login...");
         return (
           <Redirect
             to={{
@@ -62,21 +64,6 @@ const PrivateRoute = ({ component: Component, path: Path, ...rest }) => (
     }}
   />
 );
-
-const Auth = {
-  isAuthenticated: function() {
-    return new Socket(false).getSocket.connected;
-  },
-  authenticate(cb) {
-    var socket = new Socket(false).getSocket();
-    socket.on("Authentication_Successful", cb);
-    this.isAuthenticated = true;
-  },
-  signout(cb) {
-    cb();
-    this.isAuthenticated = false;
-  }
-};
 
 // const AuthButton = withRouter(
 //   ({ history }) =>

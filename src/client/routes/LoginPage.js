@@ -16,7 +16,7 @@ class LoginPage extends Component {
   }
 
   login = () => {
-    this.setState({ redirectToReferrer: true });
+    this.props.authenticate(() => this.setState({ redirectToReferrer: true }));
   };
 
   componentDidMount() {
@@ -24,6 +24,7 @@ class LoginPage extends Component {
   }
 
   render() {
+    console.log("Props: ", this.props);
     const { from } = this.props.location.state || { from: { pathname: "/" } };
     const { redirectToReferrer } = this.state;
 
@@ -37,10 +38,7 @@ class LoginPage extends Component {
           <img src={Logo} className="login-logo" />
           <h1 className="login-title"> Json Home </h1>
 
-          <form
-            // action={ LoginPage.apiEndpoint }
-            method="POST"
-          >
+          <form action={LoginPage.apiEndpoint} method="POST">
             <div className="mdc-text-field mdc-text-field--box login-username">
               <input
                 type="text"
@@ -69,9 +67,7 @@ class LoginPage extends Component {
             </div>
             <div className="login-button_container">
               <button
-                onClick={() => {
-                  this.props.authenticate();
-                }}
+                onClick={this.login()}
                 className="mdc-button mdc-button--raised login-next"
               >
                 Login
