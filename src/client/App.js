@@ -8,9 +8,7 @@ import {
 } from "react-router-dom";
 import LoginPage, { Auth } from "./routes/LoginPage";
 import ConfigPage from "./routes/ConfigPage";
-
 import "./app.scss";
-import { Socket } from "./routes/Components/socket";
 
 class App extends Component {
   constructor(props) {
@@ -25,16 +23,17 @@ class App extends Component {
           <PrivateRoute
             path="/config"
             component={ConfigPage}
-            socket={new Socket(true).getSocket()}
-            logout={withRouter(({ history }) =>
-              Auth.signout(() => history.push("/"))
-            )}
+            logout={this.logout()}
           />
           <Redirect to="/config" />
         </Switch>
       </BrowserRouter>
     );
   }
+  logout = () => {
+    console.log("Logging out...");
+    withRouter(({ history }) => Auth.signout(() => history.push("/")));
+  };
 }
 
 const PrivateRoute = ({ component: Component, ...rest }) => (

@@ -1,18 +1,21 @@
 import React, { Component } from "react";
+import Socket from "./Components/socket";
 
 class ConfigPage extends Component {
   static docTitle = "Json Home Config";
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      socket: new Socket(true).getSocket()
+    };
     document.title = ConfigPage.docTitle;
   }
   render() {
-    var socket = this.props.socket;
+    var socket = this.state.socket;
     return (
       <button
-        onClick={function() {
+        onClick={() => {
           socket.emit("Log_Out");
           this.props.logout();
         }}
