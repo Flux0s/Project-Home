@@ -49,6 +49,16 @@ var app = require("express")()
       failureRedirect: "/login" // redirect back to the login page if there is an error
     })
   )
+  .get("/", (req, res, next) => {
+    if (req.session) {
+      console.log(req.sessionID, "Requested '/'");
+      res.status(404);
+      res.send("cannot GET /");
+    } else {
+      res.status(401);
+      res.send("The requested resource requires an authentication.");
+    }
+  })
   .listen({ host: "localhost", port: port });
 
 console.log("Listening on " + port);

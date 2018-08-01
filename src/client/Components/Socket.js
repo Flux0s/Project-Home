@@ -9,7 +9,6 @@ class Socket {
   }
 
   initializeConnection(reconnect) {
-    console.log("Initializing new socket Connection...");
     this.socket = io(Socket.endpoint, {
       reconnection: reconnect,
       reconnectionDelayMax: Socket.reconnectionDelayMax,

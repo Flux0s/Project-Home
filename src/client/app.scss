@@ -1,15 +1,11 @@
+@import "./MDC-Baseline";
 @import "@material/toolbar/mdc-toolbar";
 @import "@material/typography/mdc-typography";
 @import "@material/textfield/mdc-text-field";
 @import "@material/card/mdc-card";
 @import "@material/line-ripple/mdc-line-ripple";
 @import "@material/button/mdc-button";
-@import "./MDC-Baseline";
-
-body {
-  @extend .mdc-typography;
-  margin: 0;
-}
+@import "@material/linear-progress/mdc-linear-progress";
 
 .navbar {
   height: 72px;

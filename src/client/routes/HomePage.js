@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import { MDCRipple } from "@material/ripple";
-import Socket from "./Components/socket";
 
-class ConfigPage extends Component {
+class HomePage extends Component {
   static docTitle = "Json Home Config";
 
   constructor(props) {
     super(props);
-    this.state = {
-      socket: new Socket(true).getSocket()
-    };
-    document.title = ConfigPage.docTitle;
+    this.state = {};
+    document.title = HomePage.docTitle;
   }
 
   componentDidMount() {
@@ -18,7 +15,7 @@ class ConfigPage extends Component {
   }
 
   render() {
-    var socket = this.state.socket;
+    var socket = this.props.socket;
     return (
       <button
         onClick={() => {
@@ -32,4 +29,4 @@ class ConfigPage extends Component {
   }
 }
 
-export default ConfigPage;
+export default HomePage;
