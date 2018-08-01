@@ -50,8 +50,16 @@ var app = require("express")()
     })
   )
   .get("/", (req, res, next) => {
-    if (req.session) {
-      console.log(req.sessionID, "Requested '/'");
+    console.log(req.user);
+    res.header("Access-Control-Allow-Origin", "*");
+    if (req.user) {
+      // [0] Session {
+      // [0]   cookie:
+      // [0]    { path: '/',
+      // [0]      _expires: 2018-08-01T19:49:20.058Z,
+      // [0]      originalMaxAge: 1800000,
+      // [0]      httpOnly: false,
+      // [0]      secure: false } }
       res.status(404);
       res.send("cannot GET /");
     } else {

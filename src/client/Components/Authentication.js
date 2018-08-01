@@ -4,25 +4,30 @@ import axios from "axios";
 class AuthenticationManager {
   static timeOut = 5000;
 
-  isAuthenticated;
+  isAuthenticated = false;
   socket;
-  constructor() {}
 
   checkAuthStatus = new Promise((resolve, reject) => {
+    const timeOut = setTimeout(() => {
+      resolve();
+    }, AuthenticationManager.timeOut);
+
     // axios
     //   .get(Socket.endpoint)
     //   .then(function(response) {
-    //     console.log(response);
+    //     reject(response);
     //   })
-    //   .catch(function(error) {
-    //     console.log(error);
+    //   .catch((error) => {
+    //     clearTimeout(timeOut);
+    //     const resStatus = error.response.status;
+    //     if (resStatus == 404) {
+    //       this.isAuthenticated = true;
+    //       resolve();
+    //     } else if (resStatus == 401) {
+    //       this.isAuthenticated = false;
+    //       resolve();
+    //     } else reject(error);
     //   });
-    // console.log("Async load complete!");
-    // resolve();
-    setTimeout(() => {
-      console.log("Async load complete!");
-      resolve();
-    }, AuthenticationManager.timeOut);
   });
 
   getSocket = () => {

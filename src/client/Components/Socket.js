@@ -1,6 +1,6 @@
 import io from "socket.io-client";
 class Socket {
-  static endpoint = "localhost:5000";
+  static endpoint = "http://localhost:5000";
   static reconnectionDelayMax = 30000;
   static reconnectionAttempts = 5;
   constructor(reconnect) {
