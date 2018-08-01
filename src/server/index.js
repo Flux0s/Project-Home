@@ -51,7 +51,8 @@ var app = require("express")()
   )
   .get("/", (req, res, next) => {
     console.log(req.user);
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Credentials", "true");
     if (req.user) {
       // [0] Session {
       // [0]   cookie:

@@ -15,7 +15,7 @@ export default class LinearProgressBar extends React.Component {
     this.LinearProgressElement = React.createRef();
   }
 
-  state = { classList: new Set(), style: {} };
+  state = { classList: new Set(), style: {}, visible: true };
 
   get classes() {
     const { classList } = this.state;
@@ -38,24 +38,26 @@ export default class LinearProgressBar extends React.Component {
   };
 
   render() {
-    return (
-      <div
-        className={this.classes}
-        style={this.getMergedStyles()}
-        role="progressbar"
-        className="mdc-linear-progress"
-        ref={this.initIndicator}
-      >
-        <div className="mdc-linear-progress__buffering-dots" />
-        <div className="mdc-linear-progress__buffer" />
-        <div className="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-          <span className="mdc-linear-progress__bar-inner" />
+    if (this.state.visible)
+      return (
+        <div
+          className={this.classes}
+          style={this.getMergedStyles()}
+          role="progressbar"
+          className="mdc-linear-progress"
+          ref={this.initIndicator}
+        >
+          <div className="mdc-linear-progress__buffering-dots" />
+          <div className="mdc-linear-progress__buffer" />
+          <div className="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+            <span className="mdc-linear-progress__bar-inner" />
+          </div>
+          <div className="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+            <span className="mdc-linear-progress__bar-inner" />
+          </div>
         </div>
-        <div className="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-          <span className="mdc-linear-progress__bar-inner" />
-        </div>
-      </div>
-    );
+      );
+    else return <div />;
   }
 
   getMergedStyles = () => {
@@ -75,7 +77,10 @@ export default class LinearProgressBar extends React.Component {
   };
 
   close = () => {
-    setTimeout(() => this.indicator.close(), LinearProgressBar.closeTimeout);
+    setTimeout(() => {
+      this.indicator.close();
+      this.setState({ visible: false });
+    }, LinearProgressBar.closeTimeout);
   };
 
   get adapter() {

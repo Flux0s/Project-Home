@@ -53,7 +53,7 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  background: linear-gradient(#544178, #d95115);
+  background: linear-gradient($mdc-theme-primary, $mdc-theme-secondary 75%);
 
   &-section {
     position: relative;

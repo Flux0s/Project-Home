@@ -36,15 +36,13 @@ class App extends Component {
   componentWillMount() {
     Auth.checkAuthStatus
       .then(() => {
-        Auth.isAuthenticated = true;
         clearInterval(this.state.loadingInterval);
         this.setState({
-          PageDisplay: this.LoadedPage,
+          pageDisplay: this.PageContents,
           loadingProgess: 100
         });
         this.state.progressBar.current.setProgress(1);
         this.state.progressBar.current.close();
-        console.log("Loaded post auth-check content.");
       })
       .catch((error) => console.log(error));
   }
@@ -63,8 +61,8 @@ class App extends Component {
     withRouter(({ history }) => Auth.signout(() => history.push("/")));
   };
 
-  LoadingPage = () => <div> Loading... </div>;
-  LoadedPage = () => <div> Loading Complete! </div>;
+  LoadingPage = () => <div> </div>;
+  LoadedPageTest = () => <div> Loading Complete! </div>;
 
   PageContents = () => (
     <BrowserRouter>
