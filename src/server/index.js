@@ -9,7 +9,8 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var sharedsession = require("express-socket.io-session");
 var User = require("./config/db/schemas/user");
-var MongoStore = require("connect-mongo")(expressSession);
+// var MongoStore = require("connect-mongo")(expressSession);
+var MongoStore = require("express-mongoose-store")(expressSession, mongoose);
 
 ///////////////////////////////////////////////////////////////
 //
@@ -21,9 +22,7 @@ mongoose.connect(
 ); // connect to our database
 
 // Initialize the mongodb session store
-var mongo_store = new MongoStore({
-  mongooseConnection: mongoose.connection
-});
+var mongo_store = new MongoStore({});
 
 var sessionMiddleware = expressSession({
   secret: process.env.COOKIE_SECRET,
@@ -42,25 +41,11 @@ var app = require("express")()
   .use(sessionMiddleware)
   .use(passport.initialize())
   .use(passport.session())
-  .post(
-    "/",
-    passport.authenticate("local-login", {
-      successRedirect: "/config",
-      failureRedirect: "/login" // redirect back to the login page if there is an error
-    })
-  )
   .get("/", (req, res, next) => {
-    console.log(req.user);
+    // console.log(req.user);
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Credentials", "true");
     if (req.user) {
-      // [0] Session {
-      // [0]   cookie:
-      // [0]    { path: '/',
-      // [0]      _expires: 2018-08-01T19:49:20.058Z,
-      // [0]      originalMaxAge: 1800000,
-      // [0]      httpOnly: false,
-      // [0]      secure: false } }
       res.status(404);
       res.send("cannot GET /");
     } else {
@@ -68,13 +53,20 @@ var app = require("express")()
       res.send("The requested resource requires an authentication.");
     }
   })
+  .post(
+    "/",
+    passport.authenticate("local-login", {
+      successRedirect: "/config",
+      failureRedirect: "/login" // redirect back to the login page if there is an error
+    })
+  )
   .listen({ host: "localhost", port: port });
 
 console.log("Listening on " + port);
 
 // Set up the Socket.IO server
 var io = require("socket.io")(app)
-  .use(sharedsession(sessionMiddleware, { autoSave: true }))
+  .use(sharedsession(sessionMiddleware, {}))
   .use(function(socket, next) {
     if (!socket.handshake.session.passport) {
       console.log(
@@ -86,7 +78,7 @@ var io = require("socket.io")(app)
         if (user) {
           console.log(
             "Authenticated socket connection from known user: " +
-              socket.handshake.session.passport.user
+              socket.handshake.sessionID
           );
           next();
         } else {
@@ -100,10 +92,23 @@ var io = require("socket.io")(app)
   .on("connection", function(socket) {
     var userId = socket.handshake.session.passport.user;
     socket.emit("Authentication_Successful");
-    socket.on("Log_Out", () => {
-      console.log(socket.handshake.session.id, " requested logout.");
-
-      socket.handshake.session.destroy();
-      socket.disconnect();
+    socket.on("Log_Out", (cb) => {
+      try {
+        console.log(
+          "User ",
+          socket.handshake.sessionID,
+          " requested log out..."
+        );
+        cb();
+        socket.handshake.session.destroy();
+        socket.disconnect();
+        console.log(
+          "User ",
+          socket.handshake.sessionID,
+          " logged out successfully..."
+        );
+      } catch (e) {
+        console.log("Unable to log user out: ", e);
+      }
     });
   });

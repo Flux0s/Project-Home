@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { MDCRipple } from "@material/ripple";
+import PropTypes from "prop-types";
+import Socket from "../Components/Socket";
 
 class HomePage extends Component {
   static docTitle = "Json Home Config";
@@ -15,13 +17,16 @@ class HomePage extends Component {
   }
 
   render() {
-    var socket = this.props.socket;
+    var socket = new Socket(true).getSocket();
     return (
       <button
         onClick={() => {
-          socket.emit("Log_Out", () => this.props.logout);
+          socket.emit("Log_Out", () => {
+            console.log("Logout callback invoked!");
+            setTimeout(this.props.logout, 0);
+          });
         }}
-        className="config-logout mdc-button mdc-button--raised"
+        className="mdc-button mdc-button--raised config-logout"
       >
         Log Out
       </button>

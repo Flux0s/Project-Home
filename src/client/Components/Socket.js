@@ -2,7 +2,7 @@ import io from "socket.io-client";
 class Socket {
   static endpoint = "http://localhost:5000";
   static reconnectionDelayMax = 30000;
-  static reconnectionAttempts = 5;
+  static reconnectionAttempts = 10;
   constructor(reconnect) {
     this.socket = null;
     this.initializeConnection(reconnect);
@@ -14,7 +14,9 @@ class Socket {
       reconnectionDelayMax: Socket.reconnectionDelayMax,
       reconnectionAttempts: Socket.reconnectionAttempts
     });
-    console.log("Socket Connection created!");
+    this.socket.on("Authentication_Successful", () =>
+      console.log("Socket connection established!")
+    );
   }
 
   getSocket() {

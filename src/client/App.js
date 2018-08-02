@@ -85,17 +85,22 @@ class App extends Component {
   );
 }
 
-const PrivateRoute = ({ component: Component, path: Path, ...rest }) => (
+const PrivateRoute = ({
+  component: Component,
+  path: Path,
+  logout: Logout,
+  ...rest
+}) => (
   <Route
     {...rest}
     render={(props) => {
-      if (false) {
-        window.console.log(
-          "Authenticated! displaying requested private component..."
-        );
-        return <Component {...props} socket={Auth.getSocket()} />;
+      if (Auth.isAuthenticated) {
+        // window.console.log(
+        //   "Authenticated! displaying requested private component..."
+        // );
+        return <Component {...props} />;
       } else {
-        window.console.log("Unauthenticated! redirecting to: /login...");
+        // window.console.log("Unauthenticated! redirecting to: /login...");
         return (
           <Redirect
             to={{

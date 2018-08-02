@@ -15,8 +15,7 @@ class LoginPage extends Component {
     document.title = LoginPage.docTitle;
   }
 
-  login = () => {
-    console.log("Initiating client authentication verification...");
+  handleSubmit = (e) => {
     this.props.authenticate(() => this.setState({ redirectToReferrer: true }));
   };
 
@@ -29,7 +28,7 @@ class LoginPage extends Component {
     const { redirectToReferrer } = this.state;
 
     if (redirectToReferrer) {
-      console.log("Redirecting to: ", from);
+      // console.log("Redirecting to: ", from);
       return <Redirect to={from} />;
     } else
       return (
@@ -38,7 +37,12 @@ class LoginPage extends Component {
             <img src={Logo} className="login-logo" />
             <h1 className="login-title"> Json Home </h1>
 
-            <form action={LoginPage.apiEndpoint} method="POST">
+            <form
+              action={LoginPage.apiEndpoint}
+              // id="login-form"
+              // onSubmit={this.handleSubmit}
+              method="POST"
+            >
               <div className="mdc-text-field mdc-text-field--box login-username">
                 <input
                   type="text"
@@ -67,7 +71,9 @@ class LoginPage extends Component {
               </div>
               <div className="login-button_container">
                 <button
-                  onClick={this.login}
+                  // type="submit"
+                  // form="login-form"
+                  // value="Submit"
                   className="mdc-button mdc-button--raised login-next"
                 >
                   Login

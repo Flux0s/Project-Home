@@ -30,7 +30,6 @@ export default class LinearProgressBar extends React.Component {
 
   initIndicator = (indicatorEl) => {
     if (!indicatorEl) {
-      console.log("Exiting indicator creation...");
       return;
     }
     this.indicator = new MDCLinearProgress(indicatorEl);

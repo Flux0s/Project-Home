@@ -52,7 +52,7 @@
   text-align: center;
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: fixed;
   background: linear-gradient($mdc-theme-primary, $mdc-theme-secondary 75%);
 
   &-section {
@@ -79,6 +79,7 @@
     display: block;
     width: 300px;
     margin: 20px auto;
+    background-color: $mdc-theme-secondary;
   }
 
   &-button_container {

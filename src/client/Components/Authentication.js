@@ -5,7 +5,6 @@ class AuthenticationManager {
   static timeOut = 3000;
 
   isAuthenticated = false;
-  socket;
 
   checkAuthStatus = new Promise((resolve, reject) => {
     const timeOut = setTimeout(() => {
@@ -31,23 +30,15 @@ class AuthenticationManager {
       });
   });
 
-  getSocket = () => {
-    if (this.socket) return this.socket;
-    else this.socket = new Socket(true);
-    return this.socket;
-  };
-
   authenticate = (cb) => {
-    this.socket = new Socket(false).getSocket();
-    this.socket.on("Authentication_Successful", cb, () => {
-      this.socket = new Socket(true).getSocket();
-      this.isAuthenticated = true;
+    this.checkAuthStatus.then(() => {
+      // console.log("Authenticated? ", this.isAuthenticated);
+      cb();
     });
   };
 
   signout = (cb) => {
     this.isAuthenticated = false;
-    this.socket.disconnect();
     cb();
   };
 }
