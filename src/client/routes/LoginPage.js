@@ -14,13 +14,9 @@ class LoginPage extends Component {
     };
     document.title = LoginPage.docTitle;
   }
-
-  handleSubmit = (e) => {
-    this.props.authenticate(() => this.setState({ redirectToReferrer: true }));
-  };
-
   componentDidMount() {
-    new MDCRipple(document.querySelector(".login-next"));
+    if (!this.state.redirectToReferrer)
+      new MDCRipple(document.querySelector(".login-next"));
   }
 
   render() {

@@ -43,7 +43,7 @@ export default class LinearProgressBar extends React.Component {
           className={this.classes}
           style={this.getMergedStyles()}
           role="progressbar"
-          className="mdc-linear-progress"
+          className="mdc-linear-progress progress-bar"
           ref={this.initIndicator}
         >
           <div className="mdc-linear-progress__buffering-dots" />

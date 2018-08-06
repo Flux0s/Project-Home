@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { MDCRipple } from "@material/ripple";
-import PropTypes from "prop-types";
 import Socket from "../Components/Socket";
+import { withRouter } from "react-router-dom";
 
 class HomePage extends Component {
   static docTitle = "Json Home Config";
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      socket: new Socket(true).getSocket()
+    };
     document.title = HomePage.docTitle;
   }
 
@@ -17,21 +19,23 @@ class HomePage extends Component {
   }
 
   render() {
-    var socket = new Socket(true).getSocket();
-    return (
-      <button
-        onClick={() => {
-          socket.emit("Log_Out", () => {
-            console.log("Logout callback invoked!");
-            setTimeout(this.props.logout, 0);
-          });
-        }}
-        className="mdc-button mdc-button--raised config-logout"
-      >
-        Log Out
-      </button>
-    );
+    return <this.LogoutButton />;
   }
+
+  LogoutButton = withRouter(({ history }) => (
+    <button
+      onClick={() => {
+        console.log("Sending Logout request...");
+        this.state.socket.emit("Log_Out", () => {
+          console.log("Logout callback invoked!");
+          this.props.logout(() => history.push("/"));
+        });
+      }}
+      className="mdc-button mdc-button--raised config-logout"
+    >
+      Log Out
+    </button>
+  ));
 }
 
 export default HomePage;

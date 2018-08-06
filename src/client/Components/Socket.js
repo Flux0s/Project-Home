@@ -17,6 +17,9 @@ class Socket {
     this.socket.on("Authentication_Successful", () =>
       console.log("Socket connection established!")
     );
+    this.socket.on("disconnected", () =>
+      console.log("Socket disconnected by server!")
+    );
   }
 
   getSocket() {

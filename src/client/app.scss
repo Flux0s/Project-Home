@@ -7,6 +7,10 @@
 @import "@material/button/mdc-button";
 @import "@material/linear-progress/mdc-linear-progress";
 
+.progress-bar {
+  // position: fixed;
+}
+
 .navbar {
   height: 72px;
 
@@ -56,9 +60,10 @@
   background: linear-gradient($mdc-theme-primary, $mdc-theme-secondary 75%);
 
   &-section {
-    position: relative;
+    position: fixed;
     top: 50%;
-    transform: perspective(1px) translateY(-50%);
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
     display: inline-block;
     padding: 2.5em;
   }

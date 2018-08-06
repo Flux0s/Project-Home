@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var sharedsession = require("express-socket.io-session");
 var User = require("./config/db/schemas/user");
-// var MongoStore = require("connect-mongo")(expressSession);
+var cookieParser = require("cookie-parser");
 var MongoStore = require("express-mongoose-store")(expressSession, mongoose);
 
 ///////////////////////////////////////////////////////////////
@@ -26,10 +26,16 @@ var mongo_store = new MongoStore({});
 
 var sessionMiddleware = expressSession({
   secret: process.env.COOKIE_SECRET,
-  cookie: { maxAge: 1800000, secure: false, httpOnly: false },
+  cookie: {
+    maxAge: process.env.COOKIE_EXPIRATION,
+    secure: false,
+    httpOnly: false
+  },
+  name: process.env.COOKIE_NAME,
   store: mongo_store,
   saveUninitialized: false,
-  resave: true
+  resave: false
+  // rolling: true
 });
 
 require("./config/passport")(passport); // pass passport for configuration
@@ -89,18 +95,31 @@ var io = require("socket.io")(app)
         }
       });
   })
+  // .use(function(socket, next) {
+  //   console.log("Initilizing middleware...");
+  //   var req = socket.handshake;
+  //   var res = {};
+
+  //   // passport.initialize(req, res, next);
+  //   // passport.session(req, res, next);
+  //   // next();
+  //   // cookieParser(req, res, function(err) {
+  //   //   if (err) console.log(err);
+  //   //   next();
+  //   // });
+  //   console.log("Post middleware setup");
+  // })
   .on("connection", function(socket) {
     var userId = socket.handshake.session.passport.user;
     socket.emit("Authentication_Successful");
     socket.on("Log_Out", (cb) => {
+      console.log("User ", socket.handshake.sessionID, " requested log out...");
       try {
-        console.log(
-          "User ",
-          socket.handshake.sessionID,
-          " requested log out..."
-        );
         cb();
+        socket.emit("disconnected");
         socket.handshake.session.destroy();
+        // this.handshake.logout();
+        console.log(socket);
         socket.disconnect();
         console.log(
           "User ",

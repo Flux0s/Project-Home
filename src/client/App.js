@@ -3,13 +3,7 @@ import LoginPage from "./routes/LoginPage";
 import HomePage from "./routes/HomePage";
 import AuthenticationManager from "./Components/Authentication";
 import LinearProgressBar from "./Components/LinearProgressBar";
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./app.scss";
 
 const Auth = new AuthenticationManager();
@@ -37,6 +31,7 @@ class App extends Component {
     Auth.checkAuthStatus
       .then(() => {
         clearInterval(this.state.loadingInterval);
+        console.log("Auth server response resolution!");
         this.setState({
           pageDisplay: this.PageContents,
           loadingProgess: 100
@@ -44,7 +39,16 @@ class App extends Component {
         this.state.progressBar.current.setProgress(1);
         this.state.progressBar.current.close();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log("Recieved error from Auth check", error);
+        clearInterval(this.state.loadingInterval);
+        this.setState({
+          pageDisplay: this.PageContents,
+          loadingProgess: 100
+        });
+        this.state.progressBar.current.setProgress(1);
+        this.state.progressBar.current.close();
+      });
   }
 
   render() {
@@ -56,26 +60,27 @@ class App extends Component {
     );
   }
 
-  logout = () => {
+  logout = (cb) => {
     console.log("Logging out...");
-    withRouter(({ history }) => Auth.signout(() => history.push("/")));
+    Auth.signout(cb);
   };
 
   LoadingPage = () => <div> </div>;
-  LoadedPageTest = () => <div> Loading Complete! </div>;
 
   PageContents = () => (
     <BrowserRouter>
       <Switch>
         <Route
           path="/login"
-          render={(props) => (
-            <LoginPage
-              {...props}
-              loggedIn={Auth.isAuthenticated}
-              authenticate={Auth.authenticate}
-            />
-          )}
+          render={(props) => {
+            return (
+              <LoginPage
+                {...props}
+                loggedIn={Auth.isAuthenticated}
+                authenticate={Auth.authenticate}
+              />
+            );
+          }}
         />
         <PrivateRoute path="/home" component={HomePage} logout={this.logout} />
         <Redirect to="/home" />
@@ -95,10 +100,8 @@ const PrivateRoute = ({
     {...rest}
     render={(props) => {
       if (Auth.isAuthenticated) {
-        // window.console.log(
-        //   "Authenticated! displaying requested private component..."
-        // );
-        return <Component {...props} />;
+        // window.console.log("Authenticated! displaying requested private component...");
+        return <Component {...props} logout={Logout} />;
       } else {
         // window.console.log("Unauthenticated! redirecting to: /login...");
         return (
