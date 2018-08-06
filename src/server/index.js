@@ -119,7 +119,7 @@ var io = require("socket.io")(app)
         socket.emit("disconnected");
         socket.handshake.session.destroy();
         // this.handshake.logout();
-        console.log(socket);
+        // console.log(socket);
         socket.disconnect();
         console.log(
           "User ",

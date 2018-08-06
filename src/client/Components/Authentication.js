@@ -1,5 +1,6 @@
 import Socket from "./Socket";
 import axios from "axios";
+import CookieStore from "universal-cookie";
 
 class AuthenticationManager {
   static timeOut = 3000;
@@ -43,6 +44,8 @@ class AuthenticationManager {
   };
 
   signout = (cb) => {
+    const cookies = new CookieStore();
+    cookies.remove("sid");
     this.isAuthenticated = false;
     cb();
   };
