@@ -6,13 +6,19 @@
 @import "@material/line-ripple/mdc-line-ripple";
 @import "@material/button/mdc-button";
 @import "@material/linear-progress/mdc-linear-progress";
+@import "@material/drawer/mdc-drawer";
+// @import "@material/list/mdc-list";
+
+// @include mdc-typography-baseline-top($distance);
 
 .progress-bar {
-  // position: fixed;
+  // position: fixed;`
 }
 
 .navbar {
-  height: 72px;
+  height: min-content;
+  position: fixed;
+  z-index: 1000;
 
   &-row {
     height: 100%;
@@ -20,7 +26,7 @@
 
   &-section {
     height: 100%;
-    padding: 0 24px;
+    padding: 01em;
     align-items: center;
   }
 
@@ -32,7 +38,7 @@
     text-decoration: inherit;
     text-transform: uppercase;
     letter-spacing: 0.15rem;
-    color: #fff;
+    color: $mdc-theme-on-primary;
 
     &-link {
       padding: 0;
@@ -57,7 +63,7 @@
   height: 100%;
   width: 100%;
   position: fixed;
-  background: linear-gradient($mdc-theme-primary, $mdc-theme-secondary 75%);
+  background-image: linear-gradient($mdc-theme-primary, $mdc-theme-secondary);
 
   &-section {
     position: fixed;
@@ -84,7 +90,7 @@
     display: block;
     width: 300px;
     margin: 20px auto;
-    background-color: $mdc-theme-secondary;
+    background-color: $mdc-theme-secondary-light;
   }
 
   &-button_container {
@@ -99,11 +105,29 @@
   }
 
   &-next {
+    text-decoration: none;
   }
 }
 
-.config {
+.home {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  &-nav__spacer {
+    background-color: transparent !important;
+  }
   &-logout {
-    margin: 1rem;
+    // margin: 1rem;
+    // font-size: 1.3rem;
+    background-color: $mdc-theme-secondary !important;
+    color: $mdc-theme-on-secondary !important;
+  }
+  &-drawer {
+    position: fixed;
+    height: 100%;
+    border: 0;
+    &-content {
+      background-color: $mdc-theme-secondary-light !important;
+    }
   }
 }

@@ -34,8 +34,8 @@ var sessionMiddleware = expressSession({
   name: process.env.COOKIE_NAME,
   store: mongo_store,
   saveUninitialized: false,
-  resave: false
-  // rolling: true
+  resave: true,
+  rolling: true
 });
 
 require("./config/passport")(passport); // pass passport for configuration

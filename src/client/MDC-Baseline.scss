@@ -1,7 +1,11 @@
-$mdc-theme-primary: #03a9f4;
-$mdc-theme-secondary: #90a4ae;
-$mdc-theme-on-primary: #000000;
-$mdc-theme-on-secondary: #000000;
+$mdc-theme-primary: #00bcd4;
+$mdc-theme-primary-light: #62efff;
+$mdc-theme-primary-dark: #008ba3;
+$mdc-theme-secondary: #455a64;
+$mdc-theme-secondary-light: #718792;
+$mdc-theme-secondary-dark: #1c313a;
+$mdc-theme-on-primary: #212121;
+$mdc-theme-on-secondary: #ffffff;
 
 body {
   @extend .mdc-typography;

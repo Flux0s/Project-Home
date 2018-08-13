@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { MDCRipple } from "@material/ripple";
 import Socket from "../Components/Socket";
+import Navbar from "../Components/Navbar";
+import Drawer from "../Components/Drawer";
 import { withRouter } from "react-router-dom";
 
 class HomePage extends Component {
@@ -15,11 +17,16 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    new MDCRipple(document.querySelector(".config-logout"));
+    new MDCRipple(document.querySelector(".home-logout"));
   }
 
   render() {
-    return <this.LogoutButton />;
+    return (
+      <div className="home">
+        <Navbar logoutButton={this.LogoutButton} />
+        <Drawer />
+      </div>
+    );
   }
 
   LogoutButton = withRouter(({ history }) => (
@@ -31,7 +38,7 @@ class HomePage extends Component {
           this.props.logout(() => history.push("/"));
         });
       }}
-      className="mdc-button mdc-button--raised config-logout"
+      className="mdc-button mdc-button--unelevated home-logout"
     >
       Log Out
     </button>
