@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-var port = process.env.PORT || 5000;
+var port = process.env.SEVER_PORT || 5000;
 var configDB = require("./config/db/database");
 var morgan = require("morgan");
 var passport = require("passport");
@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var sharedsession = require("express-socket.io-session");
 var User = require("./config/db/schemas/user");
-var cookieParser = require("cookie-parser");
+var Spotify = require("./spotify")();
 var MongoStore = require("express-mongoose-store")(expressSession, mongoose);
 
 ///////////////////////////////////////////////////////////////

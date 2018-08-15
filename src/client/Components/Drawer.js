@@ -16,7 +16,7 @@ class Drawer extends Component {
               </i>
               Inbox
             </a>
-            <li role="seperator" className="mdc-list-divider" />
+            <li role="separator" className="mdc-list-divider" />
             <a className="mdc-list-item" href="#">
               <i
                 className="material-icons mdc-list-item__graphic"
