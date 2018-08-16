@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { MDCRipple } from "@material/ripple";
 import Logo from "./../img/Logo-Large.png";
 
 class LoginPage extends Component {
@@ -13,10 +12,6 @@ class LoginPage extends Component {
       redirectToReferrer: this.props.loggedIn
     };
     document.title = LoginPage.docTitle;
-  }
-  componentDidMount() {
-    if (!this.state.redirectToReferrer)
-      new MDCRipple(document.querySelector(".login-next"));
   }
 
   render() {

@@ -1,8 +1,4 @@
 import React from "react";
-import {
-  MDCLinearProgress,
-  MDCLinearProgressFoundation
-} from "@material/linear-progress";
 import classnames from "classnames";
 
 export default class LinearProgressBar extends React.Component {

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { MDCRipple } from "@material/ripple";
 import Socket from "../Components/Socket";
 import Navbar from "../Components/Navbar";
 import Drawer from "../Components/Drawer";
@@ -14,10 +13,6 @@ class HomePage extends Component {
       socket: new Socket(true).getSocket()
     };
     document.title = HomePage.docTitle;
-  }
-
-  componentDidMount() {
-    new MDCRipple(document.querySelector(".home-logout"));
   }
 
   render() {

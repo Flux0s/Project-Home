@@ -3,13 +3,7 @@ import LoginPage from "./routes/LoginPage";
 import HomePage from "./routes/HomePage";
 import AuthenticationManager from "./Components/Authentication";
 import LinearProgressBar from "./Components/LinearProgressBar";
-import {
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./app.scss";
 
 const Auth = new AuthenticationManager();
@@ -60,7 +54,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <LinearProgressBar ref={this.state.progressBar} />
+        {/* <LinearProgressBar ref={this.state.progressBar} /> */}
         <this.state.pageDisplay />
       </div>
     );

@@ -1,8 +1,8 @@
 import io from "socket.io-client";
 class Socket {
-  static endpoint = "http://localhost:5000";
-  static reconnectionDelayMax = 30000;
-  static reconnectionAttempts = 10;
+  static endpoint = process.env.DOMAIN + ":" + process.env.SERVER_PORT;
+  static reconnectionDelayMax = process.env.SOCKET_RECONNECT_DELAY_MAX;
+  static reconnectionAttempts = process.env.SOCKET_RECONNECT_ATTEMPTS;
   constructor(reconnect) {
     this.socket = null;
     this.initializeConnection(reconnect);

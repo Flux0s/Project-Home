@@ -34,8 +34,7 @@ module.exports = {
             options: { plugins: () => [autoprefixer()] }
           },
           {
-            loader: "sass-loader",
-            options: { includePaths: ["./node_modules"] }
+            loader: "sass-loader"
           }
         ]
       },
