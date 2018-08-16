@@ -2,59 +2,33 @@ import React, { Component } from "react";
 import LoginPage from "./routes/LoginPage";
 import HomePage from "./routes/HomePage";
 import AuthenticationManager from "./Components/Authentication";
-import LinearProgressBar from "./Components/LinearProgressBar";
+import ProgressBar from "./Components/ProgressBar";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./app.scss";
 
 const Auth = new AuthenticationManager();
-
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loadingProgess: 0,
-      progressBar: React.createRef(),
-      loadingInterval: setInterval(() => {
-        this.setState({
-          loadingProgess:
-            this.state.loadingProgess + LinearProgressBar.updateInterval
-        });
-        this.state.progressBar.current.setProgress(
-          this.state.loadingProgess / 100
-        );
-      }, (AuthenticationManager.timeOut / 100) * LinearProgressBar.updateInterval),
+      progressBar: ProgressBar,
       pageDisplay: this.LoadingPage
     };
   }
 
   componentWillMount() {
     Auth.checkAuthStatus
-      .then(() => {
-        clearInterval(this.state.loadingInterval);
-        console.log("Auth server response resolution!");
-        this.setState({
-          pageDisplay: this.PageContents,
-          loadingProgess: 100
-        });
-        this.state.progressBar.current.setProgress(1);
-        this.state.progressBar.current.close();
-      })
-      .catch((error) => {
-        console.log("Recieved error from Auth check", error);
-        clearInterval(this.state.loadingInterval);
-        this.setState({
-          pageDisplay: this.PageContents,
-          loadingProgess: 100
-        });
-        this.state.progressBar.current.setProgress(1);
-        this.state.progressBar.current.close();
+      .then(() => {})
+      .catch((error) => {})
+      .finally(() => {
+        this.state.progressBar.LoadComplete();
       });
   }
 
   render() {
     return (
       <div>
-        {/* <LinearProgressBar ref={this.state.progressBar} /> */}
+        <this.state.progressBar />
         <this.state.pageDisplay />
       </div>
     );
