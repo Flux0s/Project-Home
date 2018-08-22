@@ -4,14 +4,13 @@ import HomePage from "./routes/HomePage";
 import AuthenticationManager from "./Components/Authentication";
 import ProgressBar from "./Components/ProgressBar";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import "./app.scss";
 
 const Auth = new AuthenticationManager();
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      progressBar: ProgressBar,
+      loaded: false,
       pageDisplay: this.LoadingPage
     };
   }
@@ -21,14 +20,14 @@ class App extends Component {
       .then(() => {})
       .catch((error) => {})
       .finally(() => {
-        this.state.progressBar.LoadComplete();
+        this.setState({ loaded: true });
       });
   }
 
   render() {
     return (
       <div>
-        <this.state.progressBar />
+        <ProgressBar loaded={this.state.loaded} />
         <this.state.pageDisplay />
       </div>
     );

@@ -6,7 +6,7 @@ const Dotenv = require("dotenv-webpack");
 const outputDirectory = "build";
 
 module.exports = {
-  entry: ["./src/client/index.js", "./src/client/app.scss"],
+  entry: ["./src/client/index.js"],
   output: {
     path: path.join(__dirname, outputDirectory),
     filename: "bundle.js"
@@ -21,7 +21,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(s*)css$/,
+        test: /\.less$/,
         use: [
           {
             loader: "file-loader",
@@ -34,7 +34,10 @@ module.exports = {
             options: { plugins: () => [autoprefixer()] }
           },
           {
-            loader: "sass-loader"
+            loader: "less-loader",
+            options: {
+              javascriptEnabled: true
+            }
           }
         ]
       },
