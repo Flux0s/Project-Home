@@ -118,8 +118,6 @@ var io = require("socket.io")(app)
         cb();
         socket.emit("disconnected");
         socket.handshake.session.destroy();
-        // this.handshake.logout();
-        // console.log(socket);
         socket.disconnect();
         console.log(
           "User ",

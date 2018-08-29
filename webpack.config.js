@@ -14,14 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
-        test: /\.less$/,
+        test: /\.css$/,
         use: [
           {
             loader: "file-loader",
@@ -32,12 +25,6 @@ module.exports = {
           {
             loader: "postcss-loader",
             options: { plugins: () => [autoprefixer()] }
-          },
-          {
-            loader: "less-loader",
-            options: {
-              javascriptEnabled: true
-            }
           }
         ]
       },
@@ -45,6 +32,13 @@ module.exports = {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
         loader: "url-loader",
         options: { limit: 100000 }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
       }
     ]
   },

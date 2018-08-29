@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import theme from "./Components/Theme";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import LoginPage from "./routes/LoginPage";
 import HomePage from "./routes/HomePage";
 import AuthenticationManager from "./Components/Authentication";
@@ -17,7 +19,9 @@ class App extends Component {
 
   componentWillMount() {
     Auth.checkAuthStatus
-      .then(() => {})
+      .then(() => {
+        this.setState({ pageDisplay: this.PageContents });
+      })
       .catch((error) => {})
       .finally(() => {
         this.setState({ loaded: true });
@@ -41,25 +45,31 @@ class App extends Component {
   LoadingPage = () => <div> </div>;
 
   PageContents = () => (
-    <BrowserRouter>
-      <Switch>
-        <Route
-          path="/login"
-          render={(props) => {
-            return (
-              <LoginPage
-                {...props}
-                loggedIn={Auth.isAuthenticated}
-                authenticate={Auth.authenticate}
-              />
-            );
-          }}
-        />
-        <PrivateRoute path="/home" component={HomePage} logout={this.logout} />
-        <Redirect to="/home" />
-        {/* <Redirect to="/login" /> */}
-      </Switch>
-    </BrowserRouter>
+    <MuiThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Switch>
+          <Route
+            path="/login"
+            render={(props) => {
+              return (
+                <LoginPage
+                  {...props}
+                  loggedIn={Auth.isAuthenticated}
+                  authenticate={Auth.authenticate}
+                />
+              );
+            }}
+          />
+          <PrivateRoute
+            path="/home"
+            component={HomePage}
+            logout={this.logout}
+          />
+          <Redirect to="/home" />
+          {/* <Redirect to="/login" /> */}
+        </Switch>
+      </BrowserRouter>
+    </MuiThemeProvider>
   );
 }
 

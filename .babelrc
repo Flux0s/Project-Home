@@ -1,10 +1,4 @@
 {
   "presets": ["env", "react", "stage-3"],
-  "plugins": [
-    "transform-class-properties",
-    [
-      "import",
-      { "libraryName": "antd", "camel2DashComponentName": true, "style": true }
-    ]
-  ]
+  "plugins": ["transform-class-properties"]
 }

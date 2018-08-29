@@ -3,7 +3,7 @@ import axios from "axios";
 import CookieStore from "universal-cookie";
 
 class AuthenticationManager {
-  static timeOut = 3000;
+  static timeOut = 3 * 1000;
 
   isAuthenticated = false;
 
