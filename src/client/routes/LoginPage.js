@@ -4,6 +4,8 @@ import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Logo from "./../img/Logo-Large.png";
 
 const styles = (theme) => ({
@@ -30,6 +32,21 @@ const styles = (theme) => ({
   },
   title: {
     "margin-bottom": "0.6em"
+  },
+  form: {
+    "display": "inline-grid"
+  },
+  textField: {
+    "margin-top": theme.spacing.unit,
+    width: 200,
+  },
+  buttonGroup: {
+    display: "flex",
+    "justify-content": "flex-end",
+    "margin-top": theme.spacing.unit
+  },
+  button: {
+
   }
 });
 
@@ -52,71 +69,52 @@ class LoginPage extends Component {
 
     if (redirectToReferrer) {
       // console.log("Redirecting to: ", from);
-      return <Redirect to={from} />;
+      return <Redirect to={ from } />;
     } else
       return (
-        <Grid container className={classes.root}>
-          <Grid item xs={12}>
-            <Paper className={classes.paper}>
-              <img src={Logo} className="login-logo" />
-              <Typography variant="display2" className={classes.title}>
-                {" "}
-                Json Home{" "}
+        <Grid container className={ classes.root }>
+          <Grid item xs={ 12 }>
+            <Paper className={ classes.paper }>
+              <img src={ Logo } className="login-logo" />
+              <Typography variant="display2" className={ classes.title }>
+                Json Home
               </Typography>
 
-              <form
-                action={LoginPage.apiEndpoint}
-                // id="login-form"
-                // onSubmit={this.handleSubmit}
-                method="POST"
-              >
-                <div className="mdc-text-field mdc-text-field--box login-username">
-                  <input
-                    type="text"
-                    className="mdc-text-field__input"
-                    id="username-input"
-                    name="username"
-                    required
-                  />
-                  <label
-                    className="mdc-floating-label"
-                    htmlFor="username-input"
-                  >
-                    Username
-                  </label>
-                  <div className="mdc-line-ripple" />
-                </div>
-                <div className="mdc-text-field mdc-text-field--box login-password">
-                  <input
-                    type="password"
-                    className="mdc-text-field__input"
-                    id="password-input"
-                    name="password"
-                    required
-                  />
-                  <label
-                    className="mdc-floating-label"
-                    htmlFor="password-input"
-                  >
-                    Password
-                  </label>
-                  <div className="mdc-line-ripple" />
-                </div>
-                <div className="login-button_container">
-                  <button
-                    // type="submit"
-                    // form="login-form"
-                    // value="Submit"
-                    className="mdc-button mdc-button--raised login-next"
+              <form className={ classes.form } action={ LoginPage.apiEndpoint } method="POST" id="login-form">
+
+                <TextField
+                  type="text"
+                  className={ classes.textField }
+                  id="username-input"
+                  name="username"
+                  label="Username"
+                  required
+                />
+                <TextField
+                  type="password"
+                  className={ classes.textField }
+                  id="password-input"
+                  name="password"
+                  label="Password"
+                  required
+                />
+                <Grid item xs={ 12 } className={ classes.buttonGroup }>
+                  <Button
+                    variant="contained" color="primary"
+                    className={ classes.button }
+                    onClick={ this.handleClick }
                   >
                     Login
-                  </button>
-                </div>
+                  </Button>
+                </Grid>
               </form>
             </Paper>
           </Grid>
         </Grid>
       );
+  }
+  handleClick = () => {
+    document.getElementById("login-form").submit();// Form submission
   }
 }
 
