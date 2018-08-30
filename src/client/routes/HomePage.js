@@ -3,12 +3,11 @@ import { withStyles } from "@material-ui/core/styles";
 import Socket from "../Components/Socket";
 import Navbar from "../Components/Navbar";
 import Drawer from "../Components/Drawer";
+import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 
 const styles = {
-  classes: {
-
-  }
+  logoutButton: {}
 }
 
 class HomePage extends Component {
@@ -25,14 +24,17 @@ class HomePage extends Component {
     const { classes } = this.props;
     return (
       <div className="home">
-        <Navbar logoutButton={ this.LogoutButton } />
+        <Navbar
+          logoutButton={ this.LogoutButton }
+        />
         <Drawer />
       </div>
     );
   }
 
   LogoutButton = withRouter(({ history }) => (
-    <button
+    <Button
+      variant="contained" color="secondary" className={ this.props.logoutButton }
       onClick={ () => {
         console.log("Sending Logout request...");
         this.state.socket.emit("Log_Out", () => {
@@ -40,10 +42,9 @@ class HomePage extends Component {
           this.props.logout(() => history.push("/"));
         });
       } }
-      className="mdc-button mdc-button--unelevated home-logout"
     >
       Log Out
-    </button>
+    </Button>
   ));
 }
 

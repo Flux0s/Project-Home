@@ -1,23 +1,22 @@
 import React, { Component } from "react";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import MenuIcon from '@material-ui/icons/Menu';
-import IconButton from '@material-ui/core/IconButton';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from "@material-ui/core/Typography";
 import { withStyles } from '@material-ui/core/styles';
-import Logo from "../img/Logo.png";
+import Logo from "../img/Logo-Large.png";
 
-const styles = {
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
   flex: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+  avatar: {
+    marginRight: theme.spacing.unit * 2,
   },
-};
+});
 
 class Navbar extends Component {
   render() {
@@ -26,28 +25,14 @@ class Navbar extends Component {
       <div className={ classes.root }>
         <AppBar>
           <Toolbar>
-            {/* <IconButton className={ classes.menuButton } color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton> */}
-            <Typography variant="title" color="inherit" className={ classes.flex }>
+            <Avatar className={ classes.avatar } src={ Logo } />
+            <Typography variant="headline" color="inherit" className={ classes.flex }>
               Json Home
             </Typography>
+            <this.props.logoutButton />
           </Toolbar>
         </AppBar>
       </div>
-      // <header className="navbar mdc-toolbar">
-      //   <div className="navbar-row mdc-toolbar__row">
-      //     <section className="navbar-section mdc-toolbar__section mdc-toolbar__section--align-start">
-      //       <a href="/" className="navbar-title-link">
-      //         <img className="navbar-logo" src={ Logo } />
-      //         <h1 className="navbar-title mdc-toolbar__title">Json Home</h1>
-      //       </a>
-      //     </section>
-      //     <section className="navbar-section mdc-toolbar__section mdc-toolbar__section--align-end">
-      //       <this.props.logoutButton />
-      //     </section>
-      //   </div>
-      // </header>
     );
   }
 }
