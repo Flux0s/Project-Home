@@ -4,7 +4,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import Authentication from "./Authentication";
 
 const UPDATE_DELTA = 2;
-const CLOSE_TIMEOUT = 1 * 1000;
+const CLOSE_TIMEOUT = 2 * 1000;
 const LOAD_TIMEOUT = Authentication.timeOut;
 
 const COMPLETE = 100;
@@ -23,7 +23,8 @@ class ProgressBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      progress: 0
+      progress: 0,
+      height: "7px"
     };
   }
   componentWillMount() {
@@ -33,9 +34,10 @@ class ProgressBar extends Component {
     const { classes } = this.props;
     return (
       <LinearProgress
-        className={classes.progress}
+        className={ classes.progress }
         variant="determinate"
-        value={this.state.progress}
+        value={ this.state.progress }
+        style={ { height: this.state.height } }
       />
     );
   }
@@ -61,10 +63,9 @@ class ProgressBar extends Component {
 
   Close() {
     setTimeout(() => {
-      styles.progress = {
-        ...styles,
+      this.setState({
         height: 0
-      };
+      });
     }, CLOSE_TIMEOUT);
   }
 }
