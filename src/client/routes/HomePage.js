@@ -2,16 +2,31 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Socket from "../Components/Socket";
 import Navbar from "../Components/Navbar";
-import Drawer from "../Components/Drawer";
+import PermanentDrawer from "../Components/PermanentDrawer";
 import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
 
-const styles = {
-  logoutButton: {}
-}
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+  },
+  logoutButton: {
+
+  },
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    minWidth: 0, // So the Typography noWrap works
+  }
+})
 
 class HomePage extends Component {
-  static docTitle = "Json Home Config";
+  static docTitle = "Json Home";
   constructor(props) {
     super(props);
     this.state = {
@@ -23,11 +38,15 @@ class HomePage extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="home">
+      <div className={ classes.root }>
         <Navbar
           logoutButton={ this.LogoutButton }
         />
-        <Drawer />
+        <PermanentDrawer
+          changeMode={ this.props.changeMode } />
+        <main className={ classes.content }>
+          <div />
+        </main>
       </div>
     );
   }

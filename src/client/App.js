@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import theme from "./Components/Theme";
-import { MuiThemeProvider } from "@material-ui/core/styles";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import LoginPage from "./routes/LoginPage";
 import HomePage from "./routes/HomePage";
 import AuthenticationManager from "./Components/Authentication";
@@ -13,7 +13,8 @@ class App extends Component {
     super(props);
     this.state = {
       loaded: false,
-      pageDisplay: this.LoadingPage
+      pageDisplay: this.LoadingPage,
+      theme: theme
     };
   }
 
@@ -22,7 +23,7 @@ class App extends Component {
       .then(() => {
         this.setState({ pageDisplay: this.PageContents });
       })
-      .catch((error) => {})
+      .catch((error) => { })
       .finally(() => {
         this.setState({ loaded: true });
       });
@@ -31,7 +32,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ProgressBar loaded={this.state.loaded} />
+        <ProgressBar loaded={ this.state.loaded } />
         <this.state.pageDisplay />
       </div>
     );
@@ -45,32 +46,48 @@ class App extends Component {
   LoadingPage = () => <div> </div>;
 
   PageContents = () => (
-    <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider theme={ createMuiTheme(this.state.theme) }>
       <BrowserRouter>
         <Switch>
           <Route
             path="/login"
-            render={(props) => {
+            render={ (props) => {
               return (
                 <LoginPage
-                  {...props}
-                  loggedIn={Auth.isAuthenticated}
-                  authenticate={Auth.authenticate}
+                  { ...props }
+                  loggedIn={ Auth.isAuthenticated }
+                  authenticate={ Auth.authenticate }
                 />
               );
-            }}
+            } }
           />
           <PrivateRoute
             path="/home"
-            component={HomePage}
-            logout={this.logout}
+            component={ HomePage }
+            logout={ this.logout }
+            updateColor={ this.ChangePrimaryColor }
+            changeMode={ this.ChangeMode }
+
           />
           <Redirect to="/home" />
-          {/* <Redirect to="/login" /> */}
+          {/* <Redirect to="/login" /> */ }
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
   );
+
+  ChangePrimaryColor = (color) => {
+    temp = { theme };
+    temp.palette.primary.main = color;
+    this.setState({ theme: temp });
+  }
+
+  ChangeMode = () => {
+    window.console.log("Switching mode...")
+    temp = { theme };
+    temp.palette.type === "light" ? temp.palette.type = "dark" : temp.palette.type = "light";
+    this.setState({ theme: temp });
+  }
 }
 
 const PrivateRoute = ({
@@ -79,43 +96,25 @@ const PrivateRoute = ({
   logout: Logout,
   ...rest
 }) => (
-  <Route
-    {...rest}
-    render={(props) => {
-      if (Auth.isAuthenticated) {
-        // window.console.log("Authenticated! displaying requested private component...");
-        return <Component {...props} logout={Logout} />;
-      } else {
-        // window.console.log("Unauthenticated! redirecting to: /login...");
-        return (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: props.location }
-            }}
-          />
-        );
-      }
-    }}
-  />
-);
-
-// const AuthButton = withRouter(
-//   ({ history }) =>
-//     Auth.isAuthenticated ? (
-//       <p>
-//         Welcome!{" "}
-//         <button
-//           onClick={() => {
-//             Auth.signout(() => history.push("/"));
-//           }}
-//         >
-//           Sign out
-//         </button>
-//       </p>
-//     ) : (
-//       <p>You are not logged in.</p>
-//     )
-// );
+    <Route
+      { ...rest }
+      render={ (props) => {
+        if (Auth.isAuthenticated) {
+          // window.console.log("Authenticated! displaying requested private component...");
+          return <Component { ...props } logout={ Logout } />;
+        } else {
+          // window.console.log("Unauthenticated! redirecting to: /login...");
+          return (
+            <Redirect
+              to={ {
+                pathname: "/login",
+                state: { from: props.location }
+              } }
+            />
+          );
+        }
+      } }
+    />
+  );
 
 export default App;
