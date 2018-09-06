@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { withStyles, createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
+
 import Socket from "../Components/Socket";
 import Navbar from "../Components/Navbar";
 import PermanentDrawer from "../Components/PermanentDrawer";
-import Button from '@material-ui/core/Button';
-import { withRouter } from "react-router-dom";
 import theme from "../Components/Theme";
+
+import LightsPage from "./LightsPage";
+import SpotifyPage from "./LightsPage";
+
+import Button from '@material-ui/core/Button';
 
 const styles = (theme) => ({
   root: {
@@ -32,7 +37,8 @@ class HomePage extends Component {
     super(props);
     this.state = {
       socket: new Socket(true).getSocket(),
-      theme: createMuiTheme(theme)
+      theme: createMuiTheme(theme),
+      pageContent: LightsPage
     };
     document.title = HomePage.docTitle;
   }
@@ -46,13 +52,24 @@ class HomePage extends Component {
             logoutButton={ this.LogoutButton }
           />
           <PermanentDrawer
-            changeMode={ this.ChangeMode } />
+            changeMode={ this.ChangeMode }
+            openLightSettings={ this.OpenLightSettings }
+            openSpotifySettings={ this.OpenSpotifySettings }
+          />
           <main className={ classes.content }>
-            <div />
+            <this.state.pageContent />
           </main>
         </div>
       </ MuiThemeProvider>
     );
+  }
+
+  OpenLightSettings = () => {
+    this.setState({ pageContent: LightsPage });
+  }
+
+  OpenSpotifySettings = () => {
+    this.setState({ pageContent: SpotifyPage });
   }
 
   LogoutButton = withRouter(({ history }) => (
@@ -70,15 +87,15 @@ class HomePage extends Component {
     </Button>
   ));
 
-  ChangePrimaryColor = (color) => {
-    var temp = { theme };
-    temp.palette.primary.main = color;
-    this.setState({ theme: temp });
-  }
+  // ChangePrimaryColor = (color) => {
+  //   var temp = { theme };
+  //   temp.palette.primary.main = color;
+  //   this.setState({ theme: temp });
+  // }
 
   ChangeMode = () => {
-    var tempTheme = this.state.theme;
-    window.console.log("Switching theme from type: ", this.state.theme.palette.type);
+    var tempTheme = theme;
+    window.console.log("Switching theme from palette: ", this.state.theme.palette);
     tempTheme.palette.type = (this.state.theme.palette.type === 'light') ? 'dark' : 'light';
     this.setState({ theme: createMuiTheme(tempTheme) });
   }

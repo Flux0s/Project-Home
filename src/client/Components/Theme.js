@@ -6,7 +6,7 @@ import red from "@material-ui/core/colors/red";
 // We try our best to provide a great default value.
 const theme = {
   palette: {
-    primary: { main: cyan.A400 },
+    primary: { main: cyan[400] },
     secondary: { main: blueGrey[700] },
     error: red,
     // Used by `getContrastText()` to maximize the contrast between the background and

@@ -39,7 +39,7 @@ class PermanentDrawer extends Component {
       >
         <div className={ classes.toolbar } />
         <List>
-          <ListItem button>
+          <ListItem button onClick={ this.props.openLightSettings }>
             <ListItemIcon>
               <ColorLens />
             </ListItemIcon>
@@ -47,7 +47,7 @@ class PermanentDrawer extends Component {
           </ListItem>
         </List>
         <List>
-          <ListItem button>
+          <ListItem button onClick={ this.props.openSpotifySettings }>
             <ListItemIcon>
               <Speaker />
             </ListItemIcon>
