@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       loaded: false,
       pageDisplay: this.LoadingPage,
-      theme: theme
+      theme: createMuiTheme(theme)
     };
   }
 
@@ -46,53 +46,35 @@ class App extends Component {
   LoadingPage = () => <div> </div>;
 
   PageContents = () => (
-    <MuiThemeProvider theme={ createMuiTheme(this.state.theme) }>
-      <BrowserRouter>
-        <Switch>
-          <Route
-            path="/login"
-            render={ (props) => {
-              return (
-                <LoginPage
-                  { ...props }
-                  loggedIn={ Auth.isAuthenticated }
-                  authenticate={ Auth.authenticate }
-                />
-              );
-            } }
-          />
-          <PrivateRoute
-            path="/home"
-            component={ HomePage }
-            logout={ this.logout }
-            updateColor={ this.ChangePrimaryColor }
-            changeMode={ this.ChangeMode }
-
-          />
-          <Redirect to="/home" />
-          {/* <Redirect to="/login" /> */ }
-        </Switch>
-      </BrowserRouter>
-    </MuiThemeProvider>
+    // <MuiThemeProvider theme={ this.state.theme }>
+    <BrowserRouter>
+      <Switch>
+        <Route
+          path="/login"
+          render={ (props) => {
+            return (
+              <LoginPage
+                { ...props }
+                loggedIn={ Auth.isAuthenticated }
+                authenticate={ Auth.authenticate }
+              />
+            );
+          } }
+        />
+        <PrivateRoute
+          path="/home"
+          component={ HomePage }
+          logout={ this.logout }
+        />
+        <Redirect to="/home" />
+      </Switch>
+    </BrowserRouter>
+    // </MuiThemeProvider>
   );
-
-  ChangePrimaryColor = (color) => {
-    temp = { theme };
-    temp.palette.primary.main = color;
-    this.setState({ theme: temp });
-  }
-
-  ChangeMode = () => {
-    window.console.log("Switching mode...")
-    temp = { theme };
-    temp.palette.type === "light" ? temp.palette.type = "dark" : temp.palette.type = "light";
-    this.setState({ theme: temp });
-  }
 }
 
 const PrivateRoute = ({
   component: Component,
-  path: Path,
   logout: Logout,
   ...rest
 }) => (
@@ -101,7 +83,7 @@ const PrivateRoute = ({
       render={ (props) => {
         if (Auth.isAuthenticated) {
           // window.console.log("Authenticated! displaying requested private component...");
-          return <Component { ...props } logout={ Logout } />;
+          return <Component { ...rest } { ...props } logout={ Logout } />;
         } else {
           // window.console.log("Unauthenticated! redirecting to: /login...");
           return (

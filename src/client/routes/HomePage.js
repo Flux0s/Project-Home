@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import Socket from "../Components/Socket";
 import Navbar from "../Components/Navbar";
 import PermanentDrawer from "../Components/PermanentDrawer";
 import Button from '@material-ui/core/Button';
 import { withRouter } from "react-router-dom";
+import theme from "../Components/Theme";
 
 const styles = (theme) => ({
   root: {
@@ -30,7 +31,8 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: new Socket(true).getSocket()
+      socket: new Socket(true).getSocket(),
+      theme: createMuiTheme(theme)
     };
     document.title = HomePage.docTitle;
   }
@@ -38,16 +40,18 @@ class HomePage extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={ classes.root }>
-        <Navbar
-          logoutButton={ this.LogoutButton }
-        />
-        <PermanentDrawer
-          changeMode={ this.props.changeMode } />
-        <main className={ classes.content }>
-          <div />
-        </main>
-      </div>
+      <MuiThemeProvider theme={ this.state.theme }>
+        <div className={ classes.root }>
+          <Navbar
+            logoutButton={ this.LogoutButton }
+          />
+          <PermanentDrawer
+            changeMode={ this.ChangeMode } />
+          <main className={ classes.content }>
+            <div />
+          </main>
+        </div>
+      </ MuiThemeProvider>
     );
   }
 
@@ -65,6 +69,20 @@ class HomePage extends Component {
       Log Out
     </Button>
   ));
+
+  ChangePrimaryColor = (color) => {
+    var temp = { theme };
+    temp.palette.primary.main = color;
+    this.setState({ theme: temp });
+  }
+
+  ChangeMode = () => {
+    var tempTheme = this.state.theme;
+    window.console.log("Switching theme from type: ", this.state.theme.palette.type);
+    tempTheme.palette.type = (this.state.theme.palette.type === 'light') ? 'dark' : 'light';
+    this.setState({ theme: createMuiTheme(tempTheme) });
+  }
+
 }
 
 export default withStyles(styles)(HomePage);
