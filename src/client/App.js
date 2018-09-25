@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import theme from "./Components/Theme";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import LoginPage from "./routes/LoginPage";
 import HomePage from "./routes/HomePage";
 import AuthenticationManager from "./Components/Authentication";
 import ProgressBar from "./Components/ProgressBar";
+import theme from "./Components/Theme";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 
 const Auth = new AuthenticationManager();
 class App extends Component {
@@ -13,8 +13,7 @@ class App extends Component {
     super(props);
     this.state = {
       loaded: false,
-      pageDisplay: this.LoadingPage,
-      theme: createMuiTheme(theme)
+      pageDisplay: this.LoadingPage
     };
   }
 
@@ -46,18 +45,19 @@ class App extends Component {
   LoadingPage = () => <div> </div>;
 
   PageContents = () => (
-    // <MuiThemeProvider theme={ this.state.theme }>
     <BrowserRouter>
       <Switch>
         <Route
           path="/login"
           render={ (props) => {
             return (
-              <LoginPage
-                { ...props }
-                loggedIn={ Auth.isAuthenticated }
-                authenticate={ Auth.authenticate }
-              />
+              <MuiThemeProvider theme={ createMuiTheme(theme) }>
+                <LoginPage
+                  { ...props }
+                  loggedIn={ Auth.isAuthenticated }
+                  authenticate={ Auth.authenticate }
+                />
+              </MuiThemeProvider>
             );
           } }
         />
@@ -69,7 +69,6 @@ class App extends Component {
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
-    // </MuiThemeProvider>
   );
 }
 

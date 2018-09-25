@@ -4,11 +4,11 @@ import { withRouter } from "react-router-dom";
 
 import Socket from "../Components/Socket";
 import Navbar from "../Components/Navbar";
-import PermanentDrawer from "../Components/PermanentDrawer";
+import PermanentDrawer, { drawerWidth } from "../Components/PermanentDrawer";
 import theme from "../Components/Theme";
 
 import LightsPage from "./LightsPage";
-import SpotifyPage from "./LightsPage";
+import SpotifyPage from "./SpotifyPage";
 
 import Button from '@material-ui/core/Button';
 
@@ -18,12 +18,14 @@ const styles = (theme) => ({
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
-    display: 'flex',
+    // display: 'flex',
   },
   logoutButton: {
 
   },
+  toolbar: theme.mixins.toolbar,
   content: {
+    'margin-left': drawerWidth,
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
@@ -56,6 +58,7 @@ class HomePage extends Component {
             openLightSettings={ this.OpenLightSettings }
             openSpotifySettings={ this.OpenSpotifySettings }
           />
+          <div className={ classes.toolbar } style={ { width: "100%" } } />
           <main className={ classes.content }>
             <this.state.pageContent />
           </main>
@@ -65,10 +68,12 @@ class HomePage extends Component {
   }
 
   OpenLightSettings = () => {
+    // window.console.log("Opening Light Settings...");
     this.setState({ pageContent: LightsPage });
   }
 
   OpenSpotifySettings = () => {
+    // window.console.log("Opening Spotify Settings...");
     this.setState({ pageContent: SpotifyPage });
   }
 
@@ -95,7 +100,6 @@ class HomePage extends Component {
 
   ChangeMode = () => {
     var tempTheme = theme;
-    window.console.log("Switching theme from palette: ", this.state.theme.palette);
     tempTheme.palette.type = (this.state.theme.palette.type === 'light') ? 'dark' : 'light';
     this.setState({ theme: createMuiTheme(tempTheme) });
   }

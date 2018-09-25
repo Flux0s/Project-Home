@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { SwitchThemeBase } from "./Theme";
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -20,9 +19,10 @@ const styles = (theme) => ({
     zIndex: theme.zIndex.drawer + 1,
   },
   drawerPaper: {
-    position: 'relative',
+    position: 'fixed',
     width: drawerWidth,
-    height: window.innerHeight - theme.mixins.toolbar
+    'top': 0,
+    'bottom': 0
   },
   toolbar: theme.mixins.toolbar,
 });
@@ -67,4 +67,6 @@ class PermanentDrawer extends Component {
     );
   }
 }
+
+export { drawerWidth };
 export default withStyles(styles)(PermanentDrawer);

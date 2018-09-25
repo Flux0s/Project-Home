@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Logo from "./../img/Logo-Large.png";
+import theme from "../Components/Theme";
+
 
 const styles = (theme) => ({
   root: {
@@ -79,9 +81,7 @@ class LoginPage extends Component {
               <Typography variant="display2" className={ classes.title }>
                 Json Home
               </Typography>
-
               <form className={ classes.form } action={ LoginPage.apiEndpoint } method="POST" id="login-form">
-
                 <TextField
                   type="text"
                   className={ classes.textField }

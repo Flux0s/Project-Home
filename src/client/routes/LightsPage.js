@@ -6,6 +6,7 @@ const styles = (theme) => ({
 
 class LightsPage extends Component {
   render() {
+    const { classes } = this.props;
     return (
       <div> Light Settings </div>
     );
