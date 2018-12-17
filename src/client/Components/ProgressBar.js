@@ -13,8 +13,9 @@ const styles = (theme) => ({
   progress: {
     position: "absolute",
     width: "100%",
-    "z-index": "1",
-    transition: "height 0.15s ease-out"
+    "z-index": "2",
+    transition: "height 0.15s ease-out",
+    "background-color": theme.palette.primary.main
   }
 });
 
