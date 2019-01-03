@@ -48,12 +48,20 @@ var app = require("express")()
   .use(passport.initialize())
   .use(passport.session())
   .get("/", (req, res, next) => {
+    if (process.env.NODE_ENV != "dev") {
+      res.sendFile(__dirname + "../../build/index.html");
+    } else {
+      res.status(404);
+      res.send('cannot GET "/"');
+    }
+  })
+  .get("/auth", (req, res, next) => {
     // console.log(req.user);
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Credentials", "true");
     if (req.user) {
-      res.status(404);
-      res.send("cannot GET /");
+      res.status(202);
+      res.send("Authenticated cookie sucessfully.");
     } else {
       res.status(401);
       res.send("The requested resource requires an authentication.");
@@ -62,7 +70,7 @@ var app = require("express")()
   .post(
     "/",
     passport.authenticate("local-login", {
-      successRedirect: "/config",
+      successRedirect: "/home",
       failureRedirect: "/login" // redirect back to the login page if there is an error
     })
   )

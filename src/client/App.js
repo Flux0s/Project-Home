@@ -18,20 +18,16 @@ class App extends Component {
   }
 
   componentWillMount() {
-    Auth.checkAuthStatus
-      .then(() => {
-        this.setState({ pageDisplay: this.PageContents });
-      })
-      .catch((error) => { })
-      .finally(() => {
-        this.setState({ loaded: true });
-      });
+    Auth.checkAuthStatus.finally(() => {
+      // console.log("Inital auth check complete.");
+      this.setState({ pageDisplay: this.PageContents, loaded: true });
+    });
   }
 
   render() {
     return (
       <div>
-        <ProgressBar loaded={ this.state.loaded } />
+        <ProgressBar loaded={this.state.loaded} />
         <this.state.pageDisplay />
       </div>
     );
@@ -49,53 +45,45 @@ class App extends Component {
       <Switch>
         <Route
           path="/login"
-          render={ (props) => {
+          render={(props) => {
             return (
-              <MuiThemeProvider theme={ createMuiTheme(theme) }>
+              <MuiThemeProvider theme={createMuiTheme(theme)}>
                 <LoginPage
-                  { ...props }
-                  loggedIn={ Auth.isAuthenticated }
-                  authenticate={ Auth.authenticate }
+                  {...props}
+                  loggedIn={Auth.isAuthenticated}
+                  authenticate={Auth.authenticate}
                 />
               </MuiThemeProvider>
             );
-          } }
+          }}
         />
-        <PrivateRoute
-          path="/home"
-          component={ HomePage }
-          logout={ this.logout }
-        />
+        <PrivateRoute path="/home" component={HomePage} logout={this.logout} />
         <Redirect to="/home" />
       </Switch>
     </BrowserRouter>
   );
 }
 
-const PrivateRoute = ({
-  component: Component,
-  logout: Logout,
-  ...rest
-}) => (
-    <Route
-      { ...rest }
-      render={ (props) => {
-        if (Auth.isAuthenticated) {
-          // window.console.log("Authenticated! displaying requested private component...");
-          return <Component { ...rest } { ...props } logout={ Logout } />;
-        } else {
-          // window.console.log("Unauthenticated! redirecting to: /login...");
-          return (
-            <Redirect
-              to={ {
-                pathname: "/login",
-                state: { from: props.location }
-              } }
-            />
-          );
-        }
-      } }
-    />
-  );
+const PrivateRoute = ({ component: Component, logout: Logout, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) => {
+      if (Auth.isAuthenticated) {
+        // window.console.log("Authenticated! displaying requested private component...");
+        return <Component {...rest} {...props} logout={Logout} />;
+      } else {
+        // window.console.log("Unauthenticated! redirecting to: /login...");
+        return (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: props.location }
+            }}
+          />
+        );
+      }
+    }}
+  />
+);
 
 export default App;

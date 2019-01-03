@@ -12,12 +12,14 @@ class AuthenticationManager {
       console.log("Error contacting server for auth check...");
       resolve();
     }, AuthenticationManager.timeOut);
-
+    // console.log("Checking auth status...");
     axios
       .get(Socket.endpoint, { withCredentials: true })
-      .then(function(response) {
+      .then((response) => {
         clearTimeout(timeOut);
-        reject(response);
+        // console.log("Auth status: ", response.statusText);
+        this.isAuthenticated = true;
+        resolve();
       })
       .catch((error) => {
         clearTimeout(timeOut);
@@ -25,11 +27,8 @@ class AuthenticationManager {
           reject(error);
           return;
         }
-        const resStatus = error.response.status;
-        if (resStatus == 404) {
-          this.isAuthenticated = true;
-          resolve();
-        } else if (resStatus == 401) {
+        if (error.response.status == 401) {
+          // console.log("Auth status: ", response.statusText);
           this.isAuthenticated = false;
           resolve();
         } else reject(error);
